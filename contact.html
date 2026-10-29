@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | PENORIX</title>
+<meta name="description" content="Contact PENORIX for questions about our pens, orders and partnerships in the United States, Korea and India.">
+<meta name="theme-color" content="#111111">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PENORIX">
+<meta property="og:title" content="Contact | PENORIX">
+<meta property="og:description" content="Contact PENORIX for questions about our pens, orders and partnerships in the United States, Korea and India.">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add("js");try{var l=localStorage.getItem("penorix-lang");if(l==="ko")document.documentElement.lang="ko"}catch(e){}</script>
+</head>
+<body data-page="contact">
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div id="top-sentinel" aria-hidden="true" style="position:absolute;top:0;height:1px;width:1px"></div>
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="brand" href="index.html" aria-label="PENORIX">PENORIX</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" data-i18n-attr="aria-label:nav.menu" aria-label="Menu"><span></span><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="collection.html" data-i18n="nav.collection">Collection</a>
+      <a href="corporate-gifts.html" data-i18n="nav.business">Corporate Gifts</a>
+      <a href="story.html" data-i18n="nav.story">Our Story</a>
+      <a href="contact.html" aria-current="page" data-i18n="nav.contact">Contact</a>
+      <button class="lang" type="button" data-lang-toggle data-i18n="lang.switch" data-i18n-attr="aria-label:lang.label" aria-label="Switch language to Korean">한국어</button>
+      <a class="btn btn--primary" href="corporate-gifts.html#quote" data-i18n="nav.quote">Request a quote</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-head">
+  <div class="wrap">
+    <h1 data-i18n="con.h1">Contact</h1>
+    <p class="lead" data-i18n="con.sub">Questions about our pens, an order or a partnership. We read every message.</p>
+  </div>
+</section>
+<section class="contact">
+  <div class="wrap contact__grid">
+    <div>
+    <form class="form" data-form="contact" novalidate>
+      <p class="notice" hidden data-i18n="f.demo">Demo mode: this form is not connected yet, so nothing you submit is saved or sent.</p>
+      <div class="form__row">
+        <div class="field">
+        <label for="name"><span data-i18n="f.name">Your name</span><span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="name" name="name" type="text" required data-validate aria-describedby="name-err" autocomplete="name">
+        
+        <p class="field__error" id="name-err" role="alert"></p>
+      </div>
+        <div class="field">
+        <label for="email"><span data-i18n="f.email">Email</span><span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="email" name="email" type="email" required data-validate aria-describedby="email-err" autocomplete="email" inputmode="email">
+        
+        <p class="field__error" id="email-err" role="alert"></p>
+      </div>
+      </div>
+      <div class="field">
+        <label for="country"><span data-i18n="f.country">Country</span></label>
+        <select class="select" id="country" name="country" data-validate aria-describedby="country-err">
+          <option value="" data-i18n="f.country.pick">Select a country</option><option value="US" data-i18n="f.country.US">United States</option><option value="KR" data-i18n="f.country.KR">Korea</option><option value="IN" data-i18n="f.country.IN">India</option><option value="OTHER" data-i18n="f.country.OTHER">Other</option>
+        </select>
+        <p class="field__error" id="country-err" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="message"><span data-i18n="f.topic">Message</span><span class="req" aria-hidden="true">*</span></label>
+        <textarea class="textarea" id="message" name="message" rows="6" required data-validate aria-describedby="message-err"></textarea>
+        
+        <p class="field__error" id="message-err" role="alert"></p>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="consent" name="consent" required data-validate aria-describedby="consent-err">
+        <div>
+          <label for="consent" data-i18n="f.consent" data-i18n-html>I agree to PENORIX using this information to reply to my request. See the <a href="privacy.html">privacy notice</a>.</label>
+          <p class="field__error" id="consent-err" role="alert"></p>
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Leave empty <input name="hp" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error form__status" role="alert" hidden></p>
+      <div><button class="btn btn--primary" type="submit" data-i18n="f.contact.send">Send message</button></div>
+    </form>
+    <div class="form-success" id="contact-success" hidden>
+      <h3 tabindex="-1" data-i18n="ok.contact.h">Message received.</h3>
+      <p data-i18n="ok.contact.p">Thank you. We will get back to you by email.</p>
+    </div>
+    </div>
+    <!-- TODO: decide which team members and addresses are public per country. -->
+    <aside class="regions">
+      <div><h3 data-i18n="con.region.us">United States</h3><p><span data-i18n="con.email">Email</span>: <a data-email="US" href="mailto:hello@penorix.com">hello@penorix.com</a></p></div>
+      <div><h3 data-i18n="con.region.kr">Korea</h3><p><span data-i18n="con.email">Email</span>: <a data-email="KR" href="mailto:hello@penorix.com">hello@penorix.com</a></p></div>
+      <div><h3 data-i18n="con.region.in">India</h3><p><span data-i18n="con.email">Email</span>: <a data-email="IN" href="mailto:hello@penorix.com">hello@penorix.com</a></p></div>
+      <p data-i18n="con.region.note">For custom engraving and volume orders, the quote request gets you to the right person fastest.</p>
+      <p><a class="btn btn--ghost btn--arrow" href="corporate-gifts.html#quote" data-i18n="cta.quote">Request a quote</a></p>
+    </aside>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="index.html" aria-label="PENORIX">PENORIX</a>
+        <p data-i18n="foot.tag">Precision Meets Possibility</p>
+      </div>
+      <div>
+        <h3 data-i18n="foot.explore">Explore</h3>
+        <ul>
+          <li><a href="collection.html" data-i18n="nav.collection">Collection</a></li>
+          <li><a href="corporate-gifts.html" data-i18n="nav.business">Corporate Gifts</a></li>
+          <li><a href="story.html" data-i18n="nav.story">Our Story</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-i18n="foot.contact">Contact</h3>
+        <ul>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+          <li><a data-email="" href="mailto:hello@penorix.com">hello@penorix.com</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-i18n="foot.follow">Follow</h3>
+        <ul>
+          <li><a data-social="instagram">Instagram</a></li>
+          <li><a data-social="youtube">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__base">
+      <p>&copy; <span data-year>2026</span> <span data-legal>PENORIX</span>. <span data-i18n="foot.rights">All rights reserved.</span></p>
+      <a href="privacy.html" data-i18n="foot.privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+<script src="js/forms.js"></script>
+</body>
+</html>
