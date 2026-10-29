@@ -9,7 +9,11 @@
   var MIN_FILL_MS = 2500; // a human takes longer than this to fill a form
 
   function sb(path, opts) {
-    opts.headers = Object.assign({ apikey: cfg.supabaseAnonKey, Authorization: "Bearer " + cfg.supabaseAnonKey }, opts.headers || {});
+    // Legacy anon keys are JWTs and double as the bearer token. New publishable keys (sb_publishable_...)
+    // are not JWTs and go in the apikey header only.
+    var h = { apikey: cfg.supabaseAnonKey };
+    if (/^eyJ/.test(cfg.supabaseAnonKey)) h.Authorization = "Bearer " + cfg.supabaseAnonKey;
+    opts.headers = Object.assign(h, opts.headers || {});
     return fetch(cfg.supabaseUrl.replace(/\/$/, "") + path, opts).then(function (r) {
       if (!r.ok) throw new Error("Supabase " + r.status);
       return r;
