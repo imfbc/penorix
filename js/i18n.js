@@ -41,6 +41,11 @@
       "prec.p3.p": "Laser engraved, not printed, so your name stays sharp.",
       "prec.alt": "Close-up of a sage green metal rollerball pen with the PENORIX engraving on its black clip",
 
+      "sign.h2": "Made for the moment you sign.",
+      "sign.sub": "Contracts, handshakes and welcome notes. When it matters, your pen is in the room.",
+      "sign.alt": "A hand signing a document with a matte black metal pen",
+      "story.alt": "An artisan polishing a chrome pen barrel at a workshop bench",
+
       "stage.w1": "YOUR NAME",
       "stage.w2": "YOUR LOGO",
       "stage.h2": "Made for your name.",
@@ -234,6 +239,11 @@
       "prec.p3.h": "각인",
       "prec.p3.p": "인쇄가 아닌 레이저 각인으로 이름이 또렷하게 남습니다.",
       "prec.alt": "검은 클립에 PENORIX가 각인된 세이지 그린 금속 롤러볼 펜 클로즈업",
+
+      "sign.h2": "서명하는 순간을 위해.",
+      "sign.sub": "계약서, 악수, 감사 카드. 중요한 순간에 당신의 펜이 그 자리에 있습니다.",
+      "sign.alt": "매트 블랙 금속 펜으로 서류에 서명하는 손",
+      "story.alt": "작업대에서 크롬 펜 바디를 닦는 장인의 손",
 
       "stage.w1": "YOUR NAME",
       "stage.w2": "YOUR LOGO",

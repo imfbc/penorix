@@ -2,7 +2,6 @@
 (function () {
   var cfg = window.PENORIX_CONFIG || {};
   var I = window.PenorixI18n;
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function ready(fn) { if (document.readyState !== "loading") fn(); else document.addEventListener("DOMContentLoaded", fn); }
 
@@ -37,8 +36,8 @@
     }
 
     // Reveal on enter
-    var reveals = document.querySelectorAll(".reveal");
-    if ("IntersectionObserver" in window && !reduced) {
+    var reveals = document.querySelectorAll(".reveal, .stagger");
+    if ("IntersectionObserver" in window) {
       var ro = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); } });
       }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
@@ -56,13 +55,25 @@
       points.forEach(function (p) { po.observe(p); });
     }
 
-    // Film plays only while visible, and not at all for reduced motion
+    // Film plays only while visible
     document.querySelectorAll("video[data-autoplay]").forEach(function (v) {
-      if (reduced) { v.removeAttribute("autoplay"); v.pause(); return; }
       if (!("IntersectionObserver" in window)) { v.play().catch(function () {}); return; }
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) v.play().catch(function () {}); else v.pause(); });
       }, { threshold: 0.25 }).observe(v);
+    });
+
+    // Conveyor belt: three identical sets so the loop (one set wide) never shows a gap
+    document.querySelectorAll(".steps__track").forEach(function (track) {
+      var originals = Array.prototype.slice.call(track.children);
+      for (var n = 0; n < 2; n++) {
+        originals.forEach(function (li) {
+          var c = li.cloneNode(true);
+          c.setAttribute("aria-hidden", "true");
+          track.appendChild(c);
+        });
+      }
+      track.classList.add("is-loop");
     });
 
     // Marketplace and contact links from config
