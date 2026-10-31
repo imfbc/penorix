@@ -83,132 +83,117 @@
   });
 })();
 
-/* Gifts journey: ONE hero pen travels the rail. As it passes each step its form changes:
-   Inquire = blueprint outline with a size line, Proof = engraving placeholder + approval check,
-   Sample = solid pen, Produce = laser engraves the name (a run of pens appears), Deliver = boxed and sent off.
-   Five pens are always on the rail. Driven by requestAnimationFrame, paused when off screen. */
+/* 3D pen viewer. three.js is loaded from a CDN only when the section nears the viewport.
+   The pen is built from lathe geometry (no model file). Drag or swipe to rotate; it spins slowly by itself. */
 (function () {
-  var rail = document.querySelector(".journey");
-  if (!rail) return;
-  var NS = "http://www.w3.org/2000/svg";
-  var DUR = 26000, N = 5, NODES = [0.1, 0.3, 0.5, 0.7, 0.9];
-  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
-  var seg = function (p, a, b) { return clamp((p - a) / (b - a)); };
-  var ease = function (t) { return t * t * (3 - 2 * t); };
-  var back = function (t) { var c = 1.8; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
-
-  var D = {
-    body: "M24 52Q24 47 29 47H132V73H29Q24 73 24 68Z", cone: "M140 47L176 54.5V65.5L140 73Z",
-    tip: "M176 54.5L196 58.3L206 60L196 61.7L176 65.5Z", cap: "M14 53Q14 49 18 49H24V71H18Q14 71 14 67Z",
-    clip: "M38 47V40Q38 36 42 36H94Q97 36 97 39.5V41.5H46V47Z", ring: "M132 46H140V74H132Z",
-    b1: "M104 47H107V73H104Z", b2: "M113 47H116V73H113Z"
-  };
-  var CHROME = "url(#pg-chrome)", GRAPH = "url(#pg-graph)";
-  var STATIC = '<path d="' + D.cap + '" fill="' + CHROME + '"/><path d="' + D.body + '" fill="' + GRAPH + '"/><path d="' + D.cone + '" fill="' + GRAPH + '"/>' +
-    '<path d="' + D.ring + '" fill="' + CHROME + '"/><path d="' + D.tip + '" fill="' + CHROME + '"/><path d="' + D.b1 + '" fill="' + CHROME + '"/><path d="' + D.b2 + '" fill="' + CHROME + '"/>' +
-    '<path d="' + D.clip + '" fill="' + CHROME + '"/><path d="M30 50.5H130" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/>' +
-    '<text x="46" y="63.6" textLength="54" lengthAdjust="spacingAndGlyphs" font-size="8" font-weight="500" fill="#d8dbde">YOUR NAME</text>';
-  var defs = document.createElementNS(NS, "svg");
-  defs.setAttribute("width", "0"); defs.setAttribute("height", "0"); defs.style.position = "absolute";
-  defs.innerHTML = '<defs><linearGradient id="pg-chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5f6f7"/><stop offset=".45" stop-color="#9da2a7"/><stop offset=".55" stop-color="#d3d6d9"/><stop offset="1" stop-color="#7c8186"/></linearGradient>' +
-    '<linearGradient id="pg-graph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3d41"/><stop offset=".5" stop-color="#1d1f21"/><stop offset="1" stop-color="#121314"/></linearGradient>' +
-    '<linearGradient id="pg-beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".95"/></linearGradient>' +
-    '<g id="pg-pen">' + STATIC + '</g></defs>';
-  rail.appendChild(defs);
-
-  var OUT = [D.body, D.cone, D.tip, D.cap, D.clip];
-  function build(k) {
-    var wrap = document.createElement("div"); wrap.className = "jx";
-    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 220 120");
-    svg.innerHTML =
-      '<defs><clipPath id="pc' + k + '"><rect class="reveal" x="44" y="46" width="0" height="28"/></clipPath></defs>' +
-      '<g class="fly"><g class="ghost-a" opacity="0"><use href="#pg-pen"/></g><g class="ghost-b" opacity="0"><use href="#pg-pen"/></g>' +
-      '<g class="pen">' +
-        '<g class="fill" opacity="0"><path d="' + D.body + '" fill="' + GRAPH + '"/><path d="' + D.cone + '" fill="' + GRAPH + '"/></g>' +
-        '<g class="chrome" opacity="0"><path d="' + D.cap + '" fill="' + CHROME + '"/><path d="' + D.ring + '" fill="' + CHROME + '"/><path d="' + D.tip + '" fill="' + CHROME + '"/><path d="' + D.b1 + '" fill="' + CHROME + '"/><path d="' + D.b2 + '" fill="' + CHROME + '"/><path d="M30 50.5H130" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></g>' +
-        '<g class="clipg" opacity="0"><path d="' + D.clip + '" fill="' + CHROME + '"/></g>' +
-        '<g class="outline" fill="none" stroke="#dfe2e5" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round">' +
-          OUT.map(function (d) { return '<path class="ol" d="' + d + '" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>'; }).join("") + '</g>' +
-        '<g class="dim" fill="none" stroke="#c9ccCF" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">' +
-          ['M14 96H206', 'M14 91V101', 'M206 91V101', 'M21 93L14 96L21 99', 'M199 93L206 96L199 99'].map(function (d) { return '<path class="dl" d="' + d + '" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>'; }).join("") + '</g>' +
-        '<rect class="ph" x="44" y="55" width="58" height="11" rx="2" fill="none" stroke="#c9ccCF" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>' +
-        '<g clip-path="url(#pc' + k + ')"><text class="eng" x="46" y="63.6" textLength="54" lengthAdjust="spacingAndGlyphs" font-size="8" font-weight="500" fill="#d8dbde" opacity="0">YOUR NAME</text></g>' +
-        '<rect class="beam" x="44" y="46" width="7" height="28" fill="url(#pg-beam)" opacity="0"/>' +
-        '<g class="check" opacity="0"><circle cx="152" cy="28" r="10" fill="#121314" stroke="#e8eaec" stroke-width="1.3"/><path d="M147 28.5L151 32.5L158 24" fill="none" stroke="#e8eaec" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>' +
-      '</g>' +
-      '<g class="box" opacity="0"><rect x="8" y="40" width="204" height="44" rx="3" fill="#141516" stroke="#c9ccCF" stroke-width="1.2"/><rect x="104" y="40" width="12" height="44" fill="#c9ccCF" fill-opacity=".85"/></g>' +
-      '<g class="lid" opacity="0"><rect x="4" y="28" width="212" height="15" rx="3" fill="#1b1c1e" stroke="#e8eaec" stroke-width="1.2"/><rect x="104" y="28" width="12" height="15" fill="#e8eaec"/></g>' +
-      '<g class="trail" opacity="0" stroke="#c9ccCF" stroke-width="1.2" stroke-linecap="round"><path d="M-10 52H-34"/><path d="M-6 62H-44"/><path d="M-10 72H-30"/></g>' +
-      '</g>';
-    wrap.appendChild(svg); rail.appendChild(wrap);
-    var q = function (s) { return svg.querySelector(s); };
-    return { wrap: wrap, fly: q(".fly"), ga: q(".ghost-a"), gb: q(".ghost-b"), fill: q(".fill"), chrome: q(".chrome"), clipg: q(".clipg"),
-      ol: svg.querySelectorAll(".ol"), outline: q(".outline"), dim: q(".dim"), dl: svg.querySelectorAll(".dl"), ph: q(".ph"),
-      reveal: q(".reveal"), eng: q(".eng"), beam: q(".beam"), check: q(".check"), box: q(".box"), lid: q(".lid"), trail: q(".trail") };
+  var host = document.querySelector("[data-pen3d]");
+  if (!host) return;
+  var section = host.closest(".hero3d") || host;
+  var started = false;
+  function load(cb) {
+    if (window.THREE) return cb();
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
+    s.async = true; s.onload = cb;
+    document.head.appendChild(s);
   }
+  if (!("IntersectionObserver" in window)) { load(init); return; }
+  new IntersectionObserver(function (es) { if (es[0].isIntersecting && !started) { started = true; load(init); } }, { rootMargin: "400px" }).observe(host);
 
-  var nodes = Array.prototype.slice.call(rail.querySelectorAll(".journey__nodes i"));
-  var items = []; for (var k = 0; k < N; k++) items.push(build(k));
-  var W = rail.clientWidth, S = 220, H = 120;
-  function measure() { W = rail.clientWidth; S = Math.max(70, Math.min(230, W * 0.175)); H = S * 120 / 220; items.forEach(function (it) { it.wrap.style.width = S + "px"; it.wrap.style.height = H + "px"; it.wrap.style.marginTop = (-H / 2) + "px"; }); }
-  measure(); window.addEventListener("resize", measure);
-  var tr = function (x, y, s) { return "translate(" + x.toFixed(1) + " " + y.toFixed(1) + ")" + (s === undefined ? "" : " translate(110 60) scale(" + s.toFixed(3) + ") translate(-110 -60)"); };
+  function init() {
+    var T = window.THREE, canvas = host.querySelector("canvas"), renderer;
+    try { renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); } catch (e) { return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+    var scene = new T.Scene(), camera = new T.PerspectiveCamera(26, 2.5, 0.1, 100);
 
-  function frame(now) {
-    var glow = [0, 0, 0, 0, 0];
-    items.forEach(function (it, i) {
-      var p = ((now / DUR) + i / N) % 1, u = 220 / S;
-      var cx = (-0.102 + 1.02 * p) * W + 4.5;
-      var g = 0;
-      NODES.forEach(function (n, ni) { var v = Math.exp(-Math.pow((p - n) / 0.05, 2)); if (v > glow[ni]) glow[ni] = v; if (v > g) g = v; });
-      it.wrap.style.transform = "translate3d(" + (cx - S / 2).toFixed(1) + "px,0,0)";
-      it.wrap.style.opacity = (seg(p, 0, 0.05) * (1 - seg(p, 0.97, 1)) * (0.6 + 0.4 * g)).toFixed(3);
-      // A. blueprint
-      var draw = seg(p, 0.02, 0.16);
-      for (var a = 0; a < it.ol.length; a++) it.ol[a].style.strokeDashoffset = (1 - clamp(draw * 1.4 - a * 0.1)).toFixed(3);
-      it.outline.setAttribute("opacity", (1 - 0.65 * seg(p, 0.4, 0.52)).toFixed(3));
-      var dd = seg(p, 0.1, 0.21);
-      for (a = 0; a < it.dl.length; a++) it.dl[a].style.strokeDashoffset = (1 - clamp(dd * 1.5 - a * 0.1)).toFixed(3);
-      it.dim.setAttribute("opacity", (1 - seg(p, 0.24, 0.32)).toFixed(3));
-      // B. proof
-      var ph = seg(p, 0.2, 0.26) * (1 - seg(p, 0.5, 0.58)) * (1 - seg(p, 0.6, 0.62));
-      it.ph.setAttribute("opacity", ph.toFixed(3));
-      var ck = back(seg(p, 0.26, 0.33)), ckv = seg(p, 0.26, 0.28) * (1 - seg(p, 0.44, 0.5));
-      it.check.setAttribute("opacity", ckv.toFixed(3));
-      it.check.setAttribute("transform", "translate(152 28) scale(" + (0.4 + 0.6 * ck).toFixed(3) + ") translate(-152 -28)");
-      // C. sample (solid)
-      it.fill.setAttribute("opacity", (0.35 * seg(p, 0.2, 0.3) + 0.65 * seg(p, 0.38, 0.5)).toFixed(3));
-      var ch = seg(p, 0.4, 0.52);
-      it.chrome.setAttribute("opacity", ch.toFixed(3));
-      it.clipg.setAttribute("opacity", ch.toFixed(3));
-      it.clipg.setAttribute("transform", "translate(0 " + (-16 * (1 - ease(ch))).toFixed(1) + ")");
-      // D. produce: laser engraving and a run of pens
-      var lz = seg(p, 0.6, 0.7);
-      it.reveal.setAttribute("width", (58 * lz).toFixed(1));
-      it.eng.setAttribute("opacity", lz > 0 ? 1 : 0);
-      it.beam.setAttribute("x", (44 + 58 * lz - 3).toFixed(1));
-      it.beam.setAttribute("opacity", (seg(p, 0.6, 0.62) * (1 - seg(p, 0.69, 0.72))).toFixed(3));
-      var run = ease(seg(p, 0.64, 0.74)), runOut = 1 - seg(p, 0.77, 0.81);
-      it.ga.setAttribute("opacity", (0.34 * run * runOut).toFixed(3)); it.gb.setAttribute("opacity", (0.34 * run * runOut).toFixed(3));
-      it.ga.setAttribute("transform", tr(0, -27 * run, 0.86)); it.gb.setAttribute("transform", tr(0, 27 * run, 0.86));
-      // E. deliver: boxed and sent off
-      var bx = ease(seg(p, 0.77, 0.86)), ld = ease(seg(p, 0.85, 0.92));
-      it.box.setAttribute("opacity", seg(p, 0.77, 0.8).toFixed(3));
-      it.box.setAttribute("transform", "translate(0 " + (56 * (1 - bx)).toFixed(1) + ")");
-      it.lid.setAttribute("opacity", seg(p, 0.83, 0.86).toFixed(3));
-      it.lid.setAttribute("transform", "translate(0 " + (-52 * (1 - ld)).toFixed(1) + ")");
-      var f = ease(seg(p, 0.92, 0.99));
-      it.fly.setAttribute("transform", "translate(" + (f * 0.2 * W * u).toFixed(1) + " " + (-f * 54 * u).toFixed(1) + ") rotate(" + (-7 * f).toFixed(1) + " 110 60)");
-      it.trail.setAttribute("opacity", (Math.sin(Math.PI * seg(p, 0.92, 0.99)) * 0.8).toFixed(3));
-      it.trail.setAttribute("transform", "translate(26 0)");
+    // studio reflections: a dark room with softboxes, baked once into an environment map
+    var env = new T.Scene(); env.background = new T.Color(0x030304);
+    function panel(w, h, x, y, z, rx, ry, v) {
+      var m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ color: new T.Color(v, v, v), side: T.DoubleSide }));
+      m.position.set(x, y, z); m.rotation.set(rx, ry, 0); env.add(m);
+    }
+    panel(26, 12, 0, 11, 0, Math.PI / 2, 0, 3.2);
+    panel(2.6, 26, -11, 0, 3, 0, Math.PI / 2, 7);
+    panel(2.2, 26, 11, 0, 1, 0, Math.PI / 2, 4.5);
+    panel(26, 8, 0, -11, 2, Math.PI / 2, 0, 0.7);
+    panel(24, 14, 0, 0, -12, 0, 0, 0.5);
+    scene.environment = new T.PMREMGenerator(renderer).fromScene(env, 0.03).texture;
+
+    var chrome = new T.MeshStandardMaterial({ color: 0xe6e8ea, metalness: 1, roughness: 0.1 });
+    // engraved barrel texture: PENORIX runs along the barrel
+    var cv = document.createElement("canvas"); cv.width = 512; cv.height = 1400;
+    var cx = cv.getContext("2d");
+    cx.fillStyle = "#17181a"; cx.fillRect(0, 0, 512, 1400);
+    cx.save(); cx.translate(128, 700); cx.rotate(-Math.PI / 2);
+    cx.font = "600 66px Inter, Pretendard, Arial, sans-serif"; cx.textAlign = "center"; cx.textBaseline = "middle";
+    if ("letterSpacing" in cx) cx.letterSpacing = "14px";
+    cx.fillStyle = "rgba(0,0,0,.6)"; cx.fillText("PENORIX", 2, 2);
+    cx.fillStyle = "#cdd0d3"; cx.fillText("PENORIX", 0, 0); cx.restore();
+    var tex = new T.CanvasTexture(cv); tex.encoding = T.sRGBEncoding; tex.anisotropy = 8;
+    var body = new T.MeshStandardMaterial({ color: 0xffffff, map: tex, metalness: 0.7, roughness: 0.42 });
+    var plain = new T.MeshStandardMaterial({ color: 0x151617, metalness: 0.7, roughness: 0.42 });
+
+    var pen = new T.Group(), V = function (r, y) { return new T.Vector2(r, y); };
+    function lathe(pts, mat) { var m = new T.Mesh(new T.LatheGeometry(pts, 96), mat); pen.add(m); return m; }
+    function ring(r, y, h, mat) { var m = new T.Mesh(new T.CylinderGeometry(r, r, h, 96), mat); m.position.y = y; pen.add(m); }
+    lathe([V(0, 7.1), V(0.2, 7.08), V(0.36, 7.0), V(0.46, 6.82), V(0.5, 6.55), V(0.52, 6.3)], chrome);       // push cap
+    ring(0.545, 6.2, 0.26, chrome);
+    lathe([V(0.52, -2.9), V(0.52, 6.08)], body);                                                                // engraved barrel
+    ring(0.56, -3.0, 0.28, chrome);
+    var low = []; for (var t = 0; t <= 1.001; t += 0.05) low.push(V(0.52 - 0.27 * Math.pow(t, 0.85), -3.14 - 3.1 * t));
+    lathe(low, plain);                                                                                           // tapered grip
+    ring(0.285, -6.3, 0.22, chrome);
+    lathe([V(0.255, -6.4), V(0.2, -6.68), V(0.13, -7.0), V(0.07, -7.28), V(0.0, -7.4)], chrome);                 // tip
+    var sh = new T.Shape(); sh.moveTo(-0.2, 4.5); sh.lineTo(-0.2, 0.25); sh.quadraticCurveTo(-0.2, 0, 0, 0);
+    sh.quadraticCurveTo(0.2, 0, 0.2, 0.25); sh.lineTo(0.2, 4.5); sh.lineTo(-0.2, 4.5);
+    var cg = new T.ExtrudeGeometry(sh, { depth: 0.07, bevelEnabled: true, bevelSize: 0.035, bevelThickness: 0.035, bevelSegments: 3, curveSegments: 12 });
+    cg.rotateY(Math.PI / 2); cg.translate(0.5, 1.7, 0.0);
+    pen.add(new T.Mesh(cg, chrome));
+    var br = new T.Mesh(new T.BoxGeometry(0.2, 0.36, 0.4), chrome); br.position.set(0.52, 6.18, 0); pen.add(br);
+    pen.position.y = -0.1;
+
+    var spin = new T.Group(); spin.add(pen);
+    var tilt = new T.Group(), offY = 0; tilt.add(spin); scene.add(tilt);
+    var baseTilt = Math.PI / 2 - 0.95;
+    tilt.rotation.z = -baseTilt; tilt.rotation.x = 0.16;
+    var key = new T.DirectionalLight(0xffffff, 0.5); key.position.set(-6, 8, 10); scene.add(key);
+
+    function resize() {
+      var w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+      renderer.setSize(w, h, false); camera.aspect = w / h;
+      var fov = camera.fov * Math.PI / 180, th = 2 * Math.tan(fov / 2);
+      var wide = camera.aspect > 1.1, dist = (wide ? 17 : 42) / th;
+      camera.position.set(0, 0, dist); camera.updateProjectionMatrix();
+      var visH = th * dist, visW = visH * camera.aspect;
+      tilt.position.x = wide ? visW * 0.2 : 0; offY = wide ? -visH * 0.02 : visH * 0.25;
+    }
+    resize();
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(host); else window.addEventListener("resize", resize);
+
+    // interaction: drag to roll the pen, vertical drag to tilt it; it eases back and keeps spinning
+    var drag = false, lx = 0, ly = 0, vel = 0, idle = 0, rx = 0.16, tz = 0;
+    canvas.addEventListener("pointerdown", function (e) { drag = true; lx = e.clientX; ly = e.clientY; vel = 0; canvas.setPointerCapture(e.pointerId); });
+    canvas.addEventListener("pointermove", function (e) {
+      if (!drag) return; var dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY;
+      spin.rotation.y += dx * 0.012; vel = dx * 0.012;
+      rx = Math.max(-0.5, Math.min(0.7, rx + dy * 0.004));
     });
-    nodes.forEach(function (n, ni) { n.style.setProperty("--g", glow[ni].toFixed(3)); });
-  }
+    function up() { drag = false; idle = 1.4; }
+    canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
 
-  var raf = 0, t0 = performance.now() + DUR * 0.04;
-  function loop(now) { frame(now - t0); raf = requestAnimationFrame(loop); }
-  function start() { if (!raf) raf = requestAnimationFrame(loop); }
-  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
-  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { es[0].isIntersecting ? start() : stop(); }).observe(rail); else start();
-  frame(DUR * 0.04);
+    var raf = 0, last = 0, visible = true, ready = false;
+    function loop(now) {
+      var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
+      if (!drag) {
+        if (idle > 0) { idle -= dt; spin.rotation.y += vel; vel *= 0.94; }
+        else { vel += (0.5 * dt - vel) * 0.04; spin.rotation.y += vel; }
+        rx += (0.16 - rx) * 0.01;
+      }
+      tz += dt; tilt.rotation.x = rx; tilt.rotation.z = -baseTilt + Math.sin(tz * 0.5) * 0.035; tilt.position.y = offY + Math.sin(tz * 0.8) * 0.12;
+      renderer.render(scene, camera); if (!ready) { ready = true; section.classList.add("is-3d"); } raf = visible ? requestAnimationFrame(loop) : 0;
+    }
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(loop); } }, { rootMargin: "100px" }).observe(host);
+    raf = requestAnimationFrame(loop);
+  }
 })();

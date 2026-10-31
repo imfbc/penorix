@@ -51,7 +51,7 @@ index.html ... privacy.html   페이지 (헤더/푸터는 각 파일에 포함)
 css/style.css                 디자인 토큰과 전체 스타일 (다크 단일 테마, 직각 모서리)
 js/config.js                  설정
 js/i18n.js                    EN/KO 문구
-js/main.js                    내비, 언어 전환, 스크롤 연출(IntersectionObserver, CSS scroll-driven)
+js/main.js                    내비, 언어 전환, 스크롤 연출, 히어로 3D 펜(three.js, CDN에서 로드)
 js/forms.js                   견적/문의 폼: 검증, 로고 업로드, Supabase REST 전송
 assets/                       웹용 이미지·영상 (원본은 .gitignore의 _src/)
 supabase/                     schema.sql, 이메일 알림 함수

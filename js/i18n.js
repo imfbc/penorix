@@ -63,6 +63,8 @@
       "c.graphite": "Graphite",
 
       "biz.h2": "Gifts that carry your name.",
+      "hero.eyebrow": "Custom engraved metal pens",
+      "biz.drag": "Drag to rotate",
       "biz.sub": "For corporate teams, hotels and events, from the first sample to a full production run.",
       "step.inquire.h": "Inquire",
       "step.inquire.p": "Tell us the quantity, model and what to engrave.",
@@ -262,6 +264,8 @@
       "c.graphite": "그래파이트",
 
       "biz.h2": "이름이 담긴 선물.",
+      "hero.eyebrow": "맞춤 각인 메탈 펜",
+      "biz.drag": "드래그해서 돌려 보세요",
       "biz.sub": "기업, 호텔, 행사를 위해 첫 샘플부터 대량 생산까지 함께합니다.",
       "step.inquire.h": "문의",
       "step.inquire.p": "수량, 모델, 각인할 내용을 알려주세요.",

@@ -36,8 +36,11 @@
   </div>
 </header>
 <main id="main">
-<section class="hero">
-  <div class="hero__text">
+<section class="hero3d" aria-label="PENORIX">
+  <div class="hero3d__poster" aria-hidden="true"></div>
+  <div class="hero3d__stage" data-pen3d="hero" aria-hidden="true"><canvas></canvas></div>
+  <div class="hero3d__text">
+    <p class="hero3d__eyebrow" data-i18n="hero.eyebrow">Custom engraved metal pens</p>
     <h1 data-i18n="hero.h1">Precision Meets Possibility</h1>
     <p class="lead" data-i18n="hero.sub">Custom engraved metal pens for the moments you sign, give and are remembered.</p>
     <div class="btn-row">
@@ -45,9 +48,7 @@
       <a class="btn btn--ghost" href="collection.html" data-i18n="cta.collection">View collection</a>
     </div>
   </div>
-  <div class="hero__media">
-    <img src="assets/hero.webp" srcset="assets/hero-sm.webp 600w, assets/hero.webp 1200w" sizes="(min-width: 768px) 50vw, 100vw" width="1200" height="2150" alt="A matte black PENORIX twist pen with a chrome clip, lit against a dark background" fetchpriority="high">
-  </div>
+  <p class="hero3d__hint" aria-hidden="true" data-i18n="biz.drag">Drag to rotate</p>
 </section>
 
 <section class="precision" aria-labelledby="prec-h">
@@ -119,9 +120,6 @@
       <p class="lead" data-i18n="biz.sub">For corporate teams, hotels and events, from the first sample to a full production run.</p>
       <div class="btn-row"><a class="btn btn--primary btn--arrow" href="corporate-gifts.html#quote" data-i18n="cta.quote">Request a quote</a></div>
     </div>
-    <div class="journey" aria-hidden="true">
-      <div class="journey__nodes"><i></i><i></i><i></i><i></i><i></i></div>
-    </div>
     <ol class="steps stagger">
       <li class="step"><h3 data-i18n="step.inquire.h">Inquire</h3><p data-i18n="step.inquire.p">Tell us the quantity, model and what to engrave.</p></li>
       <li class="step"><h3 data-i18n="step.proof.h">Proof</h3><p data-i18n="step.proof.p">We send a design proof for your approval.</p></li>
@@ -158,6 +156,20 @@
       <a class="link" data-link="amazon" data-i18n="market.amazon">Amazon US</a>
       <a class="link" data-link="coupang" data-i18n="market.coupang">Coupang Korea</a>
     </div>
+  </div>
+</section>
+
+<section class="hero hero--end" aria-label="PENORIX">
+  <div class="hero__text">
+    <h2 data-i18n="hero.h1">Precision Meets Possibility</h2>
+    <p class="lead" data-i18n="hero.sub">Custom engraved metal pens for the moments you sign, give and are remembered.</p>
+    <div class="btn-row">
+      <a class="btn btn--primary btn--arrow" href="corporate-gifts.html#quote" data-i18n="cta.quote">Request a quote</a>
+      <a class="btn btn--ghost" href="collection.html" data-i18n="cta.collection">View collection</a>
+    </div>
+  </div>
+  <div class="hero__media">
+    <img src="assets/hero.webp" srcset="assets/hero-sm.webp 600w, assets/hero.webp 1200w" sizes="(min-width: 768px) 50vw, 100vw" width="1200" height="2150" alt="A matte black PENORIX twist pen with a chrome clip, lit against a dark background" loading="lazy">
   </div>
 </section>
 </main>
