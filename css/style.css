@@ -195,27 +195,61 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 .step p { color: var(--muted); font-size: 0.95rem; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr; gap: 28px; } }
 
-.journey { --dur: 20s; --gold: #e2ae48; position: relative; height: 170px; margin-bottom: 30px; overflow: hidden; background: linear-gradient(180deg, rgba(27, 42, 68, 0) 0%, rgba(27, 42, 68, 0.55) 50%, rgba(27, 42, 68, 0) 100%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.journey { --dur: 18s; container-type: inline-size; position: relative; height: 180px; margin-bottom: 30px; overflow: hidden; background: linear-gradient(180deg, rgba(27, 42, 68, 0) 0%, rgba(27, 42, 68, 0.55) 50%, rgba(27, 42, 68, 0) 100%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
 .journey::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dotted rgba(226, 174, 72, 0.7); }
 .journey__nodes { position: absolute; left: 0; right: 0; top: 50%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 clamp(20px, 2.5vw, 40px); }
-.journey__nodes i { display: block; width: 11px; height: 11px; margin: -5.5px 0 0; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px rgba(226, 174, 72, 0.18), 0 0 14px rgba(226, 174, 72, 0.5); }
-.journey__item { --delay: calc(var(--i) * var(--dur) / -5); position: absolute; top: 50%; left: 0; width: 120px; height: 120px; margin-top: -60px; animation: travel var(--dur) linear infinite; animation-delay: var(--delay); }
-.journey__bob { position: absolute; inset: 0; animation: bob 2.6s ease-in-out infinite alternate; }
-.journey__bob svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0; filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.45)); animation-duration: var(--dur); animation-timing-function: linear; animation-iteration-count: infinite; animation-delay: var(--delay); }
-.journey .j-doc { animation-name: j-doc; }
-.journey .j-stamp { animation-name: j-stamp; }
-.journey .j-penline { animation-name: j-penline; filter: drop-shadow(0 0 8px rgba(226, 174, 72, 0.45)); }
-.journey .j-pen { animation-name: j-pen; }
-.journey .j-box { animation-name: j-box; }
-@keyframes travel { from { left: -5%; } to { left: 100%; } }
-@keyframes bob { from { transform: translateY(-5px) rotate(-1.5deg); } to { transform: translateY(5px) rotate(1.5deg); } }
-@keyframes j-doc { 0% { opacity: 0; transform: scale(0.8); } 6% { opacity: 1; transform: none; } 32% { opacity: 1; transform: none; } 39% { opacity: 0; transform: scale(0.7) rotate(-8deg); } 100% { opacity: 0; } }
-@keyframes j-stamp { 0%, 20% { opacity: 0; transform: scale(1.7); } 25% { opacity: 1; transform: none; } 32% { opacity: 1; transform: none; } 39%, 100% { opacity: 0; } }
-@keyframes j-penline { 0%, 40% { opacity: 0; transform: scale(0.7) rotate(10deg); } 47% { opacity: 1; transform: none; } 58% { opacity: 1; } 64%, 100% { opacity: 0; } }
-@keyframes j-pen { 0%, 58% { opacity: 0; } 64% { opacity: 1; transform: none; } 76% { opacity: 1; transform: none; } 84% { opacity: 0; transform: scale(0.6); } 100% { opacity: 0; } }
-@keyframes j-box { 0%, 78% { opacity: 0; transform: scale(0.6) translateY(8px); } 86% { opacity: 1; transform: none; } 96% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.journey__nodes i { display: block; width: 11px; height: 11px; margin: -5.5px 0 0; border-radius: 50%; background: #e2ae48; box-shadow: 0 0 0 5px rgba(226, 174, 72, 0.18), 0 0 14px rgba(226, 174, 72, 0.5); }
+/* One looping story: paper is written (Inquire) > stamped (Proof) > becomes a pen (Sample) > packed in a box (Produce) > flown away (Deliver) */
+.jx { position: absolute; top: 50%; left: 0; width: 120px; height: 120px; margin-top: -60px; opacity: 0; will-change: transform, opacity; animation: var(--dur) linear infinite both; }
+.jx svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.45)); }
+.jx-paper { animation-name: jx-paper; }
+.jx-pen { animation-name: jx-pen; }
+.jx-box { animation-name: jx-box; }
+.jx-plane { animation-name: jx-plane; }
+.jx-doc path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: var(--dur) linear infinite both; }
+.jx-doc .jx-l1 { animation-name: jx-l1; } .jx-doc .jx-l2 { animation-name: jx-l2; } .jx-doc .jx-l3 { animation-name: jx-l3; } .jx-doc .jx-l4 { animation-name: jx-l4; }
+.jx-stamp { opacity: 0; transform-origin: 67% 70%; animation: jx-stamp var(--dur) linear infinite both; }
+.jx-penline { opacity: 0; animation: jx-penline var(--dur) linear infinite both; }
+.jx-pensolid { opacity: 0; animation: jx-pensolid var(--dur) linear infinite both; }
+.jx-lid { transform-origin: 15% 43%; animation: jx-lid var(--dur) ease-in-out infinite both; }
+.jx-cargo { opacity: 0; animation: jx-cargo var(--dur) linear infinite both; }
+@keyframes jx-paper {
+  0% { opacity: 0; transform: translateX(calc(10cqw - 60px)) translateY(12px) scale(0.9); }
+  4%, 18% { opacity: 1; transform: translateX(calc(10cqw - 60px)); }
+  28%, 41% { opacity: 1; transform: translateX(calc(30cqw - 60px)); }
+  49% { opacity: 1; transform: translateX(calc(50cqw - 60px)); }
+  54%, 100% { opacity: 0; transform: translateX(calc(50cqw - 60px)) scale(0.85); }
+}
+@keyframes jx-l1 { 0%, 5% { stroke-dashoffset: 1; } 8%, 100% { stroke-dashoffset: 0; } }
+@keyframes jx-l2 { 0%, 8% { stroke-dashoffset: 1; } 11%, 100% { stroke-dashoffset: 0; } }
+@keyframes jx-l3 { 0%, 11% { stroke-dashoffset: 1; } 14%, 100% { stroke-dashoffset: 0; } }
+@keyframes jx-l4 { 0%, 14% { stroke-dashoffset: 1; } 17%, 100% { stroke-dashoffset: 0; } }
+@keyframes jx-stamp { 0%, 30% { opacity: 0; transform: scale(2.4); } 33% { opacity: 1; transform: scale(1); } 34.5% { opacity: 1; transform: scale(1.1); } 36%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes jx-pen {
+  0%, 46% { opacity: 0; transform: translateX(calc(50cqw - 60px)) scale(0.8); }
+  51%, 64% { opacity: 1; transform: translateX(calc(50cqw - 60px)); }
+  72%, 76% { opacity: 1; transform: translateX(calc(70cqw - 60px)) translateY(-28px); }
+  80% { opacity: 1; transform: translateX(calc(70cqw - 60px)) translateY(10px) scale(0.75); }
+  81%, 100% { opacity: 0; transform: translateX(calc(70cqw - 60px)) translateY(10px) scale(0.75); }
+}
+@keyframes jx-penline { 0%, 50% { opacity: 0; } 54%, 58% { opacity: 1; } 62%, 100% { opacity: 0; } }
+@keyframes jx-pensolid { 0%, 56% { opacity: 0; } 62%, 100% { opacity: 1; } }
+@keyframes jx-box {
+  0%, 62% { opacity: 0; transform: translateX(calc(70cqw - 60px)) translateY(12px) scale(0.85); }
+  68%, 83% { opacity: 1; transform: translateX(calc(70cqw - 60px)); }
+  89% { opacity: 1; transform: translateX(calc(90cqw - 60px)); }
+  92%, 100% { opacity: 0; transform: translateX(calc(90cqw - 60px)) translateY(-2px) scale(0.5); }
+}
+@keyframes jx-lid { 0%, 80% { transform: rotate(-55deg); } 83.5%, 100% { transform: rotate(0); } }
+@keyframes jx-plane {
+  0%, 86% { opacity: 0; transform: translateX(calc(90cqw - 60px)) translateY(6px); }
+  89%, 91% { opacity: 1; transform: translateX(calc(90cqw - 60px)); }
+  96% { opacity: 1; transform: translateX(calc(100cqw - 60px)) translateY(-22px) rotate(-6deg); }
+  100% { opacity: 0; transform: translateX(calc(122cqw - 60px)) translateY(-60px) rotate(-10deg); }
+}
+@keyframes jx-cargo { 0%, 91% { opacity: 0; } 93%, 100% { opacity: 1; } }
 @media (max-width: 900px) { .journey__nodes { display: none; } }
-@media (max-width: 767px) { .journey { height: 110px; --dur: 16s; } .journey__item { width: 76px; height: 76px; margin-top: -38px; } }
+@media (max-width: 767px) { .journey { height: 120px; --dur: 16s; } .jx { width: 80px; height: 80px; margin-top: -40px; } }
 
 /* Story band: workshop photograph, copy on the dark right side */
 .story { position: relative; overflow: hidden; min-height: min(92dvh, 860px); display: grid; align-items: center; background: var(--green-deep); }
