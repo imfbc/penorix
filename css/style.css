@@ -186,19 +186,34 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
   .lineup__list { order: 3; }
 }
 
-/* Business: five verbs on a continuous conveyor belt */
+/* Business: five fixed steps, with request forms travelling above them and turning into pens */
 .biz { padding: 18vh 0; border-top: 1px solid var(--line); overflow: hidden; }
-.biz__head { max-width: 760px; margin-bottom: 9vh; }
-.steps { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-.steps__track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 clamp(20px, 2.5vw, 40px); }
-.js .steps__track { display: flex; width: max-content; gap: 0; }
+.biz__head { max-width: 760px; margin-bottom: 7vh; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 clamp(20px, 2.5vw, 40px); }
 .step { border-top: 1px solid var(--silver); padding-top: 26px; }
-.js .step { flex: 0 0 clamp(250px, 22vw, 330px); margin-right: clamp(24px, 3vw, 48px); }
 .step h3 { font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 300; margin-bottom: 0.7rem; }
 .step p { color: var(--muted); font-size: 0.95rem; }
-.js .steps__track.is-loop { animation: belt 48s linear infinite; }
-.steps:hover .steps__track.is-loop { animation-play-state: paused; }
-@keyframes belt { to { transform: translateX(calc(-100% / 3)); } }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr; gap: 28px; } }
+
+.journey { --dur: 20s; position: relative; height: 150px; margin-bottom: 30px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.journey::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed rgba(201, 204, 207, 0.35); }
+.journey__item { --delay: calc(var(--i) * var(--dur) / -5); position: absolute; top: 50%; left: 0; width: 112px; height: 112px; margin-top: -56px; animation: travel var(--dur) linear infinite; animation-delay: var(--delay); }
+.journey__bob { position: absolute; inset: 0; animation: bob 2.6s ease-in-out infinite alternate; }
+.journey__bob svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--silver); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0; animation-duration: var(--dur); animation-timing-function: linear; animation-iteration-count: infinite; animation-delay: var(--delay); }
+.journey .j-doc { animation-name: j-doc; }
+.journey .j-stamp { animation-name: j-stamp; }
+.journey .j-penline { animation-name: j-penline; }
+.journey .j-pen { animation-name: j-pen; }
+.journey .j-box { animation-name: j-box; }
+.j-green { stroke: var(--green-hi); }
+@keyframes travel { from { left: -5%; } to { left: 100%; } }
+@keyframes bob { from { transform: translateY(-5px) rotate(-1.5deg); } to { transform: translateY(5px) rotate(1.5deg); } }
+@keyframes j-doc { 0% { opacity: 0; transform: scale(0.8); } 6% { opacity: 1; transform: none; } 32% { opacity: 1; transform: none; } 39% { opacity: 0; transform: scale(0.7) rotate(-8deg); } 100% { opacity: 0; } }
+@keyframes j-stamp { 0%, 20% { opacity: 0; transform: scale(1.7); } 25% { opacity: 1; transform: none; } 32% { opacity: 1; transform: none; } 39%, 100% { opacity: 0; } }
+@keyframes j-penline { 0%, 40% { opacity: 0; transform: scale(0.7) rotate(10deg); } 47% { opacity: 1; transform: none; } 58% { opacity: 1; } 64%, 100% { opacity: 0; } }
+@keyframes j-pen { 0%, 58% { opacity: 0; } 64% { opacity: 1; transform: none; } 76% { opacity: 1; transform: none; } 84% { opacity: 0; transform: scale(0.6); } 100% { opacity: 0; } }
+@keyframes j-box { 0%, 78% { opacity: 0; transform: scale(0.6) translateY(8px); } 86% { opacity: 1; transform: none; } 96% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@media (max-width: 767px) { .journey { height: 100px; --dur: 16s; } .journey__item { width: 72px; height: 72px; margin-top: -36px; } }
 
 /* Story band: workshop photograph, copy on the dark right side */
 .story { position: relative; overflow: hidden; min-height: min(92dvh, 860px); display: grid; align-items: center; background: var(--green-deep); }

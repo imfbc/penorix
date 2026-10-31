@@ -63,19 +63,6 @@
       }, { threshold: 0.25 }).observe(v);
     });
 
-    // Conveyor belt: three identical sets so the loop (one set wide) never shows a gap
-    document.querySelectorAll(".steps__track").forEach(function (track) {
-      var originals = Array.prototype.slice.call(track.children);
-      for (var n = 0; n < 2; n++) {
-        originals.forEach(function (li) {
-          var c = li.cloneNode(true);
-          c.setAttribute("aria-hidden", "true");
-          track.appendChild(c);
-        });
-      }
-      track.classList.add("is-loop");
-    });
-
     // Marketplace and contact links from config
     document.querySelectorAll("[data-link]").forEach(function (a) {
       var url = cfg[a.getAttribute("data-link") + "Url"];
