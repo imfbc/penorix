@@ -83,90 +83,124 @@
   });
 })();
 
-/* Gifts journey: hairline icons on a conveyor. One outline morphs paper > pen > gift box > plane
-   while it passes Inquire, Proof, Sample, Produce, Deliver. Five items are always on the rail. */
+/* Gifts journey: ONE hero pen travels the rail. As it passes each step its form changes:
+   Inquire = blueprint outline with a size line, Proof = engraving placeholder + approval check,
+   Sample = solid pen, Produce = laser engraves the name (a run of pens appears), Deliver = boxed and sent off.
+   Five pens are always on the rail. Driven by requestAnimationFrame, paused when off screen. */
 (function () {
   var rail = document.querySelector(".journey");
   if (!rail) return;
   var NS = "http://www.w3.org/2000/svg";
-  var DUR = 24000, N = 5, NODES = [0.1, 0.3, 0.5, 0.7, 0.9];
+  var DUR = 26000, N = 5, NODES = [0.1, 0.3, 0.5, 0.7, 0.9];
   var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
   var seg = function (p, a, b) { return clamp((p - a) / (b - a)); };
   var ease = function (t) { return t * t * (3 - 2 * t); };
-  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  var back = function (t) { var c = 1.8; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
-  // each detail: path data, then [drawIn start, drawIn end, drawOut start, drawOut end] in item progress
-  var DETAIL = [
-    { d: "M42 42a5 5 0 1 0 10 0a5 5 0 1 0 -10 0", t: [0.02, 0.07, 0.34, 0.46] },
-    { d: "M46 56H74", t: [0.04, 0.08, 0.34, 0.46] }, { d: "M46 64H74", t: [0.08, 0.12, 0.34, 0.46] },
-    { d: "M46 72H74", t: [0.12, 0.16, 0.34, 0.46] }, { d: "M46 80H62", t: [0.16, 0.19, 0.34, 0.46] },
-    { d: "M61 78a11 11 0 1 0 22 0a11 11 0 1 0 -22 0", t: [0.24, 0.31, 0.34, 0.46] },
-    { d: "M67 78.5l4 4 8-9", t: [0.28, 0.33, 0.34, 0.46] },
-    { d: "M36 53V46.5H60V53", t: [0.44, 0.56, 0.62, 0.72] }, { d: "M66 53.5V66.5", t: [0.46, 0.56, 0.62, 0.72] },
-    { d: "M31 56V64", t: [0.46, 0.56, 0.62, 0.72] }, { d: "M93 54L110 60L93 66", t: [0.48, 0.58, 0.62, 0.72] },
-    { d: "M33 35H87V44H33Z", t: [0.64, 0.74, 0.8, 0.9] }, { d: "M56.5 35V77", t: [0.66, 0.76, 0.8, 0.9] },
-    { d: "M63.5 35V77", t: [0.66, 0.76, 0.8, 0.9] },
-    { d: "M60 35C50 21 40 29 47 34C52 37 58 35 60 35", t: [0.68, 0.78, 0.8, 0.9] },
-    { d: "M60 35C70 21 80 29 73 34C68 37 62 35 60 35", t: [0.68, 0.78, 0.8, 0.9] },
-    { d: "M24 52L19 35H34L46 52", t: [0.82, 0.92, 2, 2] }, { d: "M50 68L38 88H53L74 68", t: [0.84, 0.94, 2, 2] },
-    { d: "M60.4 58a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0", t: [0.86, 0.94, 2, 2] },
-    { d: "M68.4 58a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0", t: [0.87, 0.95, 2, 2] },
-    { d: "M76.4 58a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0", t: [0.88, 0.96, 2, 2] }
-  ];
-  // body outline as a rounded rectangle: [progress, width, height, radius]
-  var SHAPES = [[0.34, 44, 58, 4], [0.58, 66, 13, 6.5], [0.76, 46, 34, 3], [0.92, 74, 16, 8]];
+  var D = {
+    body: "M24 52Q24 47 29 47H132V73H29Q24 73 24 68Z", cone: "M140 47L176 54.5V65.5L140 73Z",
+    tip: "M176 54.5L196 58.3L206 60L196 61.7L176 65.5Z", cap: "M14 53Q14 49 18 49H24V71H18Q14 71 14 67Z",
+    clip: "M38 47V40Q38 36 42 36H94Q97 36 97 39.5V41.5H46V47Z", ring: "M132 46H140V74H132Z",
+    b1: "M104 47H107V73H104Z", b2: "M113 47H116V73H113Z"
+  };
+  var CHROME = "url(#pg-chrome)", GRAPH = "url(#pg-graph)";
+  var STATIC = '<path d="' + D.cap + '" fill="' + CHROME + '"/><path d="' + D.body + '" fill="' + GRAPH + '"/><path d="' + D.cone + '" fill="' + GRAPH + '"/>' +
+    '<path d="' + D.ring + '" fill="' + CHROME + '"/><path d="' + D.tip + '" fill="' + CHROME + '"/><path d="' + D.b1 + '" fill="' + CHROME + '"/><path d="' + D.b2 + '" fill="' + CHROME + '"/>' +
+    '<path d="' + D.clip + '" fill="' + CHROME + '"/><path d="M30 50.5H130" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/>' +
+    '<text x="46" y="63.6" textLength="54" lengthAdjust="spacingAndGlyphs" font-size="8" font-weight="500" fill="#d8dbde">YOUR NAME</text>';
+  var defs = document.createElementNS(NS, "svg");
+  defs.setAttribute("width", "0"); defs.setAttribute("height", "0"); defs.style.position = "absolute";
+  defs.innerHTML = '<defs><linearGradient id="pg-chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5f6f7"/><stop offset=".45" stop-color="#9da2a7"/><stop offset=".55" stop-color="#d3d6d9"/><stop offset="1" stop-color="#7c8186"/></linearGradient>' +
+    '<linearGradient id="pg-graph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3d41"/><stop offset=".5" stop-color="#1d1f21"/><stop offset="1" stop-color="#121314"/></linearGradient>' +
+    '<linearGradient id="pg-beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".95"/></linearGradient>' +
+    '<g id="pg-pen">' + STATIC + '</g></defs>';
+  rail.appendChild(defs);
 
-  function bodyAt(p) {
-    var a = SHAPES[0], b = SHAPES[0], t = 0, i;
-    if (p <= SHAPES[0][0]) { a = b = SHAPES[0]; }
-    else if (p >= SHAPES[3][0]) { a = b = SHAPES[3]; }
-    else {
-      for (i = 0; i < 3; i++) if (p >= SHAPES[i][0] && p < SHAPES[i + 1][0]) { a = SHAPES[i]; b = SHAPES[i + 1]; t = ease((p - a[0]) / (b[0] - a[0])); }
-    }
-    var w = lerp(a[1], b[1], t), h = lerp(a[2], b[2], t), r = Math.min(lerp(a[3], b[3], t), w / 2, h / 2);
-    var x = 60 - w / 2, y = 60 - h / 2;
-    return "M" + (x + r) + " " + y + "H" + (x + w - r) + "A" + r + " " + r + " 0 0 1 " + (x + w) + " " + (y + r) +
-      "V" + (y + h - r) + "A" + r + " " + r + " 0 0 1 " + (x + w - r) + " " + (y + h) +
-      "H" + (x + r) + "A" + r + " " + r + " 0 0 1 " + x + " " + (y + h - r) +
-      "V" + (y + r) + "A" + r + " " + r + " 0 0 1 " + (x + r) + " " + y + "Z";
+  var OUT = [D.body, D.cone, D.tip, D.cap, D.clip];
+  function build(k) {
+    var wrap = document.createElement("div"); wrap.className = "jx";
+    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 220 120");
+    svg.innerHTML =
+      '<defs><clipPath id="pc' + k + '"><rect class="reveal" x="44" y="46" width="0" height="28"/></clipPath></defs>' +
+      '<g class="fly"><g class="ghost-a" opacity="0"><use href="#pg-pen"/></g><g class="ghost-b" opacity="0"><use href="#pg-pen"/></g>' +
+      '<g class="pen">' +
+        '<g class="fill" opacity="0"><path d="' + D.body + '" fill="' + GRAPH + '"/><path d="' + D.cone + '" fill="' + GRAPH + '"/></g>' +
+        '<g class="chrome" opacity="0"><path d="' + D.cap + '" fill="' + CHROME + '"/><path d="' + D.ring + '" fill="' + CHROME + '"/><path d="' + D.tip + '" fill="' + CHROME + '"/><path d="' + D.b1 + '" fill="' + CHROME + '"/><path d="' + D.b2 + '" fill="' + CHROME + '"/><path d="M30 50.5H130" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></g>' +
+        '<g class="clipg" opacity="0"><path d="' + D.clip + '" fill="' + CHROME + '"/></g>' +
+        '<g class="outline" fill="none" stroke="#dfe2e5" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round">' +
+          OUT.map(function (d) { return '<path class="ol" d="' + d + '" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>'; }).join("") + '</g>' +
+        '<g class="dim" fill="none" stroke="#c9ccCF" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">' +
+          ['M14 96H206', 'M14 91V101', 'M206 91V101', 'M21 93L14 96L21 99', 'M199 93L206 96L199 99'].map(function (d) { return '<path class="dl" d="' + d + '" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>'; }).join("") + '</g>' +
+        '<rect class="ph" x="44" y="55" width="58" height="11" rx="2" fill="none" stroke="#c9ccCF" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>' +
+        '<g clip-path="url(#pc' + k + ')"><text class="eng" x="46" y="63.6" textLength="54" lengthAdjust="spacingAndGlyphs" font-size="8" font-weight="500" fill="#d8dbde" opacity="0">YOUR NAME</text></g>' +
+        '<rect class="beam" x="44" y="46" width="7" height="28" fill="url(#pg-beam)" opacity="0"/>' +
+        '<g class="check" opacity="0"><circle cx="152" cy="28" r="10" fill="#121314" stroke="#e8eaec" stroke-width="1.3"/><path d="M147 28.5L151 32.5L158 24" fill="none" stroke="#e8eaec" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>' +
+      '</g>' +
+      '<g class="box" opacity="0"><rect x="8" y="40" width="204" height="44" rx="3" fill="#141516" stroke="#c9ccCF" stroke-width="1.2"/><rect x="104" y="40" width="12" height="44" fill="#c9ccCF" fill-opacity=".85"/></g>' +
+      '<g class="lid" opacity="0"><rect x="4" y="28" width="212" height="15" rx="3" fill="#1b1c1e" stroke="#e8eaec" stroke-width="1.2"/><rect x="104" y="28" width="12" height="15" fill="#e8eaec"/></g>' +
+      '<g class="trail" opacity="0" stroke="#c9ccCF" stroke-width="1.2" stroke-linecap="round"><path d="M-10 52H-34"/><path d="M-6 62H-44"/><path d="M-10 72H-30"/></g>' +
+      '</g>';
+    wrap.appendChild(svg); rail.appendChild(wrap);
+    var q = function (s) { return svg.querySelector(s); };
+    return { wrap: wrap, fly: q(".fly"), ga: q(".ghost-a"), gb: q(".ghost-b"), fill: q(".fill"), chrome: q(".chrome"), clipg: q(".clipg"),
+      ol: svg.querySelectorAll(".ol"), outline: q(".outline"), dim: q(".dim"), dl: svg.querySelectorAll(".dl"), ph: q(".ph"),
+      reveal: q(".reveal"), eng: q(".eng"), beam: q(".beam"), check: q(".check"), box: q(".box"), lid: q(".lid"), trail: q(".trail") };
   }
 
   var nodes = Array.prototype.slice.call(rail.querySelectorAll(".journey__nodes i"));
-  var items = [];
-  for (var k = 0; k < N; k++) {
-    var wrap = document.createElement("div"); wrap.className = "jx";
-    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 120 120");
-    var fly = document.createElementNS(NS, "g");
-    var body = document.createElementNS(NS, "path"); body.setAttribute("class", "jx-body"); fly.appendChild(body);
-    var parts = DETAIL.map(function (d) {
-      var el = document.createElementNS(NS, "path"); el.setAttribute("d", d.d); el.setAttribute("pathLength", "1");
-      el.style.strokeDasharray = "1"; el.style.strokeDashoffset = "1"; fly.appendChild(el); return { el: el, t: d.t };
-    });
-    svg.appendChild(fly); wrap.appendChild(svg); rail.appendChild(wrap);
-    items.push({ wrap: wrap, fly: fly, body: body, parts: parts });
-  }
-
-  var W = rail.clientWidth, S = 150;
-  function measure() { W = rail.clientWidth; S = items[0].wrap.offsetWidth || 150; }
+  var items = []; for (var k = 0; k < N; k++) items.push(build(k));
+  var W = rail.clientWidth, S = 220, H = 120;
+  function measure() { W = rail.clientWidth; S = Math.max(70, Math.min(230, W * 0.175)); H = S * 120 / 220; items.forEach(function (it) { it.wrap.style.width = S + "px"; it.wrap.style.height = H + "px"; it.wrap.style.marginTop = (-H / 2) + "px"; }); }
   measure(); window.addEventListener("resize", measure);
+  var tr = function (x, y, s) { return "translate(" + x.toFixed(1) + " " + y.toFixed(1) + ")" + (s === undefined ? "" : " translate(110 60) scale(" + s.toFixed(3) + ") translate(-110 -60)"); };
 
   function frame(now) {
     var glow = [0, 0, 0, 0, 0];
     items.forEach(function (it, i) {
-      var p = ((now / DUR) + i / N) % 1;
-      var x = (-0.102 + 1.02 * p) * W - S / 2 + 4.5;
-      var inA = seg(p, 0, 0.06), outA = 1 - seg(p, 0.97, 1);
-      it.wrap.style.transform = "translate3d(" + x.toFixed(1) + "px,0,0)";
+      var p = ((now / DUR) + i / N) % 1, u = 220 / S;
+      var cx = (-0.102 + 1.02 * p) * W + 4.5;
       var g = 0;
-      NODES.forEach(function (n, ni) { var v = Math.exp(-Math.pow((p - n) / 0.045, 2)); if (v > glow[ni]) glow[ni] = v; if (v > g) g = v; });
-      it.wrap.style.opacity = (inA * outA * (0.55 + 0.45 * g)).toFixed(3);
-      it.body.setAttribute("d", bodyAt(p));
-      it.parts.forEach(function (pt) {
-        var d = seg(p, pt.t[0], pt.t[1]) * (1 - seg(p, pt.t[2], pt.t[3]));
-        pt.el.style.strokeDashoffset = (1 - d).toFixed(3);
-      });
-      var f = ease(seg(p, 0.88, 0.99)), u = 120 / S;
-      it.fly.setAttribute("transform", "translate(" + (f * 0.2 * W * u).toFixed(1) + " " + (-f * 46 * u).toFixed(1) + ") rotate(" + (-9 * f).toFixed(1) + " 60 60)");
+      NODES.forEach(function (n, ni) { var v = Math.exp(-Math.pow((p - n) / 0.05, 2)); if (v > glow[ni]) glow[ni] = v; if (v > g) g = v; });
+      it.wrap.style.transform = "translate3d(" + (cx - S / 2).toFixed(1) + "px,0,0)";
+      it.wrap.style.opacity = (seg(p, 0, 0.05) * (1 - seg(p, 0.97, 1)) * (0.6 + 0.4 * g)).toFixed(3);
+      // A. blueprint
+      var draw = seg(p, 0.02, 0.16);
+      for (var a = 0; a < it.ol.length; a++) it.ol[a].style.strokeDashoffset = (1 - clamp(draw * 1.4 - a * 0.1)).toFixed(3);
+      it.outline.setAttribute("opacity", (1 - 0.65 * seg(p, 0.4, 0.52)).toFixed(3));
+      var dd = seg(p, 0.1, 0.21);
+      for (a = 0; a < it.dl.length; a++) it.dl[a].style.strokeDashoffset = (1 - clamp(dd * 1.5 - a * 0.1)).toFixed(3);
+      it.dim.setAttribute("opacity", (1 - seg(p, 0.24, 0.32)).toFixed(3));
+      // B. proof
+      var ph = seg(p, 0.2, 0.26) * (1 - seg(p, 0.5, 0.58)) * (1 - seg(p, 0.6, 0.62));
+      it.ph.setAttribute("opacity", ph.toFixed(3));
+      var ck = back(seg(p, 0.26, 0.33)), ckv = seg(p, 0.26, 0.28) * (1 - seg(p, 0.44, 0.5));
+      it.check.setAttribute("opacity", ckv.toFixed(3));
+      it.check.setAttribute("transform", "translate(152 28) scale(" + (0.4 + 0.6 * ck).toFixed(3) + ") translate(-152 -28)");
+      // C. sample (solid)
+      it.fill.setAttribute("opacity", (0.35 * seg(p, 0.2, 0.3) + 0.65 * seg(p, 0.38, 0.5)).toFixed(3));
+      var ch = seg(p, 0.4, 0.52);
+      it.chrome.setAttribute("opacity", ch.toFixed(3));
+      it.clipg.setAttribute("opacity", ch.toFixed(3));
+      it.clipg.setAttribute("transform", "translate(0 " + (-16 * (1 - ease(ch))).toFixed(1) + ")");
+      // D. produce: laser engraving and a run of pens
+      var lz = seg(p, 0.6, 0.7);
+      it.reveal.setAttribute("width", (58 * lz).toFixed(1));
+      it.eng.setAttribute("opacity", lz > 0 ? 1 : 0);
+      it.beam.setAttribute("x", (44 + 58 * lz - 3).toFixed(1));
+      it.beam.setAttribute("opacity", (seg(p, 0.6, 0.62) * (1 - seg(p, 0.69, 0.72))).toFixed(3));
+      var run = ease(seg(p, 0.64, 0.74)), runOut = 1 - seg(p, 0.77, 0.81);
+      it.ga.setAttribute("opacity", (0.34 * run * runOut).toFixed(3)); it.gb.setAttribute("opacity", (0.34 * run * runOut).toFixed(3));
+      it.ga.setAttribute("transform", tr(0, -27 * run, 0.86)); it.gb.setAttribute("transform", tr(0, 27 * run, 0.86));
+      // E. deliver: boxed and sent off
+      var bx = ease(seg(p, 0.77, 0.86)), ld = ease(seg(p, 0.85, 0.92));
+      it.box.setAttribute("opacity", seg(p, 0.77, 0.8).toFixed(3));
+      it.box.setAttribute("transform", "translate(0 " + (56 * (1 - bx)).toFixed(1) + ")");
+      it.lid.setAttribute("opacity", seg(p, 0.83, 0.86).toFixed(3));
+      it.lid.setAttribute("transform", "translate(0 " + (-52 * (1 - ld)).toFixed(1) + ")");
+      var f = ease(seg(p, 0.92, 0.99));
+      it.fly.setAttribute("transform", "translate(" + (f * 0.2 * W * u).toFixed(1) + " " + (-f * 54 * u).toFixed(1) + ") rotate(" + (-7 * f).toFixed(1) + " 110 60)");
+      it.trail.setAttribute("opacity", (Math.sin(Math.PI * seg(p, 0.92, 0.99)) * 0.8).toFixed(3));
+      it.trail.setAttribute("transform", "translate(26 0)");
     });
     nodes.forEach(function (n, ni) { n.style.setProperty("--g", glow[ni].toFixed(3)); });
   }
@@ -175,8 +209,6 @@
   function loop(now) { frame(now - t0); raf = requestAnimationFrame(loop); }
   function start() { if (!raf) raf = requestAnimationFrame(loop); }
   function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) { es[0].isIntersecting ? start() : stop(); }).observe(rail);
-  } else start();
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { es[0].isIntersecting ? start() : stop(); }).observe(rail); else start();
   frame(DUR * 0.04);
 })();
