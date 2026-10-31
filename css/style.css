@@ -196,83 +196,17 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 .step p { color: var(--muted); font-size: 0.95rem; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr; gap: 28px; } }
 
-.journey { --dur: 22s; --k: 1.25; container-type: inline-size; position: relative; height: 190px; margin-bottom: 30px; overflow: hidden; background: radial-gradient(60% 55% at 50% 50%, rgba(36, 77, 138, 0.22), rgba(27, 42, 68, 0) 75%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-.journey::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: repeating-linear-gradient(90deg, rgba(226, 174, 72, 0.8) 0 3px, transparent 3px 12px); animation: jx-rail 1.4s linear infinite; }
-@keyframes jx-rail { from { background-position: 0 0; } to { background-position: 12px 0; } }
+.journey { --s: 150px; position: relative; height: 210px; margin-bottom: 30px; overflow: hidden; background: radial-gradient(55% 50% at 50% 50%, rgba(201, 204, 207, 0.06), rgba(201, 204, 207, 0) 75%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.journey::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(201, 204, 207, 0.28); }
 .journey__nodes { position: absolute; left: 0; right: 0; top: 50%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 clamp(20px, 2.5vw, 40px); }
-.journey__nodes i { display: block; width: 9px; height: 9px; margin: -4.5px 0 0; border-radius: 50%; background: #0f1623; border: 2px solid #e2ae48; box-shadow: 0 0 0 5px rgba(226, 174, 72, 0.14), 0 0 16px rgba(226, 174, 72, 0.55); }
-/* Continuous conveyor. One body shape per item really changes form (paper > pen > gift box > plane) as it passes each step.
-   Progress p (%): Inquire 10, Proof 30, Sample 50, Produce 70, Deliver 90. Flat shapes, five items always on the rail. */
-.jx { --delay: calc(var(--i) * var(--dur) / -5); position: absolute; top: 50%; left: 0; width: 120px; height: 120px; margin-top: -60px; will-change: transform; animation: jx-run var(--dur) linear infinite; }
-.jx, .jx * { animation-delay: var(--delay) !important; animation-duration: var(--dur); animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: linear; }
-@keyframes jx-run { from { transform: translateX(calc(-10.2cqw - 55.5px)); } to { transform: translateX(calc(91.8cqw - 55.5px)); } }
-.jx-fly, .jx-st { position: absolute; inset: 0; }
-.jx-fly { animation-name: jx-fly; }
-.jx-st { transform: scale(var(--k)); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.32)); }
-.jx-st i { position: absolute; display: block; }
-.jx .g { position: absolute; inset: 0; }
-.jx .m { left: 60px; top: 60px; width: 44px; height: 58px; border-radius: 4px; background: #f4eee3; translate: -50% -50%; animation-name: jx-body; }
-@keyframes jx-fly {
-  0% { opacity: 0; transform: none; animation-timing-function: ease-out; }
-  6% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.55); }
-  88% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.55); }
-  97% { opacity: 1; transform: translate(18cqw, -40px) rotate(-8deg); animation-timing-function: linear; }
-  100% { opacity: 0; transform: translate(24cqw, -56px) rotate(-11deg); }
-}
-@keyframes jx-body {
-  0%, 34% { width: 44px; height: 58px; border-radius: 4px; background: #f4eee3; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-  58%, 60% { width: 66px; height: 13px; border-radius: 7px; background: #2f66b8; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-  76%, 78% { width: 46px; height: 34px; border-radius: 3px; background: #f4eee3; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-  92%, 100% { width: 74px; height: 16px; border-radius: 8px; background: #ffffff; }
-}
-/* paper */
-.g-paper { animation-name: jx-g-paper; }
-@keyframes jx-g-paper { 0%, 34% { opacity: 1; transform: none; animation-timing-function: ease-in; } 47%, 100% { opacity: 0; transform: rotate(40deg) scale(0.2); } }
-.seal { left: 44px; top: 37px; width: 12px; height: 12px; border: 2px solid #e2ae48; border-radius: 50%; box-sizing: border-box; }
-.seal::after { content: ""; position: absolute; left: 2.5px; top: 2.5px; width: 3px; height: 3px; border-radius: 50%; background: #e2ae48; }
-.ln { left: 44px; height: 3px; border-radius: 2px; background: #22344f; opacity: 0.6; transform-origin: 0 50%; transform: scaleX(0); }
-.l1 { top: 54px; width: 32px; animation-name: jx-l1; } .l2 { top: 62px; width: 32px; animation-name: jx-l2; }
-.l3 { top: 70px; width: 32px; animation-name: jx-l3; } .l4 { top: 78px; width: 18px; animation-name: jx-l4; }
-@keyframes jx-l1 { 0%, 4% { transform: scaleX(0); } 8%, 100% { transform: scaleX(1); } }
-@keyframes jx-l2 { 0%, 8% { transform: scaleX(0); } 12%, 100% { transform: scaleX(1); } }
-@keyframes jx-l3 { 0%, 12% { transform: scaleX(0); } 16%, 100% { transform: scaleX(1); } }
-@keyframes jx-l4 { 0%, 16% { transform: scaleX(0); } 19%, 100% { transform: scaleX(1); } }
-.stamp { left: 58px; top: 64px; width: 28px; height: 28px; border-radius: 50%; background: #c4382f; animation-name: jx-stamp; }
-.stamp::after { content: ""; position: absolute; left: 10px; top: 6px; width: 6px; height: 12px; border: solid #fbf3e6; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
-@keyframes jx-stamp { 0%, 25% { opacity: 0; transform: scale(2.6) rotate(-14deg); animation-timing-function: cubic-bezier(0.3, 1.35, 0.5, 1); } 31%, 100% { opacity: 1; transform: none; } }
-/* pen */
-.g-pen { animation-name: jx-g-pen; }
-@keyframes jx-g-pen {
-  0%, 42% { opacity: 0; transform: scale(0.25); animation-timing-function: cubic-bezier(0.3, 1.35, 0.5, 1); }
-  58%, 62% { opacity: 1; transform: none; animation-timing-function: ease-in; }
-  74%, 100% { opacity: 0; transform: scale(0.25); }
-}
-.clip { left: 36px; top: 46px; width: 24px; height: 6px; border-radius: 3px; background: #e2ae48; }
-.band { left: 66px; top: 53.5px; width: 4px; height: 13px; background: #e2ae48; }
-.cap { left: 27px; top: 56px; width: 4px; height: 8px; border-radius: 2px; background: #e2ae48; }
-.shine { left: 34px; top: 55px; width: 50px; height: 2.5px; border-radius: 2px; background: #fff; opacity: 0.3; }
-.tip { left: 93px; top: 54px; width: 16px; height: 12px; background: #f4eee3; clip-path: polygon(0 0, 100% 50%, 0 100%); }
-/* gift box */
-.g-box { animation-name: jx-g-box; }
-@keyframes jx-g-box {
-  0%, 66% { opacity: 0; transform: scale(0.3); animation-timing-function: cubic-bezier(0.3, 1.35, 0.5, 1); }
-  76%, 80% { opacity: 1; transform: none; animation-timing-function: ease-in; }
-  90%, 100% { opacity: 0; transform: scale(0.3); }
-}
-.lid { left: 33px; top: 38px; width: 54px; height: 10px; border-radius: 2px; background: #e4d9c3; }
-.rib { left: 57px; top: 38px; width: 6px; height: 39px; background: #c4382f; }
-.bow { top: 27px; width: 14px; height: 12px; box-sizing: border-box; border: 3px solid #e2ae48; border-radius: 50%; }
-.bl { left: 46px; transform: rotate(-22deg); } .br { left: 60px; transform: rotate(22deg); }
-/* plane */
-.g-plane { animation-name: jx-g-plane; }
-@keyframes jx-g-plane { 0%, 80% { opacity: 0; transform: scale(0.3); animation-timing-function: cubic-bezier(0.3, 1.35, 0.5, 1); } 92%, 100% { opacity: 1; transform: none; } }
-.fin { left: 21px; top: 36px; width: 22px; height: 18px; background: #e2ae48; clip-path: polygon(0 0, 42% 0, 100% 100%, 0 100%); }
-.wing { left: 44px; top: 62px; width: 32px; height: 22px; background: #8fa9d3; clip-path: polygon(38% 0, 78% 0, 36% 100%, 0 100%); }
-.belt { left: 25px; top: 62px; width: 70px; height: 3px; border-radius: 2px; background: #2f66b8; }
-.win { top: 56px; width: 4px; height: 4px; border-radius: 50%; background: #2f66b8; }
-.w1 { left: 60px; } .w2 { left: 69px; } .w3 { left: 78px; }
+.journey__nodes i { --g: 0; display: block; width: 9px; height: 9px; margin: -4.5px 0 0; border-radius: 50%; background: var(--ink); border: 1.5px solid rgba(201, 204, 207, calc(0.4 + 0.6 * var(--g))); box-shadow: 0 0 calc(18px * var(--g)) rgba(255, 255, 255, calc(0.55 * var(--g))); }
+/* Hairline monochrome icons. js/main.js morphs one outline (paper > pen > gift box > plane) as each item passes a step. */
+.jx { position: absolute; top: 50%; left: 0; width: var(--s); height: var(--s); margin-top: calc(var(--s) / -2); will-change: transform, opacity; }
+.jx svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.jx svg * { fill: none; stroke: #e4e6e8; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+.jx .jx-body { fill: rgba(201, 204, 207, 0.05); }
 @media (max-width: 900px) { .journey__nodes { display: none; } }
-@media (max-width: 767px) { .journey { --k: 0.72; height: 130px; --dur: 18s; } }
+@media (max-width: 767px) { .journey { --s: 104px; height: 140px; } }
 
 /* Story band: workshop photograph, copy on the dark right side */
 .story { position: relative; overflow: hidden; min-height: min(92dvh, 860px); display: grid; align-items: center; background: var(--green-deep); }
