@@ -148,17 +148,19 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 }
 
 /* Signing: close-up photograph, copy on the dark left side */
-.signing { position: relative; overflow: hidden; min-height: min(100dvh, 900px); display: grid; align-items: center; }
-.signing__media { position: absolute; inset: 0; }
-.signing__media img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; animation: drift 24s ease-in-out infinite alternate; }
-.signing__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 4%, rgba(17, 17, 17, 0.5) 36%, rgba(17, 17, 17, 0) 62%); }
+.signing { position: relative; overflow: hidden; min-height: min(100dvh, 900px); display: grid; align-items: center; background: #fbfbfa; color: #0c0c0d; box-shadow: inset 0 46px 60px -50px rgba(0, 0, 0, 0.35), inset 0 -46px 60px -50px rgba(0, 0, 0, 0.3); }
+/* A close-up of pure white paper: grain and fibers are SVG lighting filters, the signature is drawn live by js/main.js. */
+.signing__paper { position: absolute; inset: 0; }
+.signing__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.signing__vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 95% at 45% 40%, rgba(30, 28, 24, 0) 52%, rgba(30, 28, 24, 0.2) 100%), linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 46%); }
 .signing .wrap { position: relative; z-index: 1; padding-block: 16vh; }
 .signing__copy { max-width: 520px; }
-.signing h2 { max-width: 16ch; }
+.signing h2 { max-width: 16ch; color: #0c0c0d; }
+.signing .lead { color: #4a4c4f; }
 @media (max-width: 767px) {
   .signing { align-items: end; min-height: 100dvh; }
-  .signing__media img { object-position: 68% 50%; }
-  .signing__media::after { background: linear-gradient(0deg, var(--ink) 22%, rgba(17, 17, 17, 0.3) 66%, rgba(17, 17, 17, 0) 100%); }
+  .signing__svg { height: 58%; }
+  .signing__vig { background: radial-gradient(120% 70% at 50% 25%, rgba(30, 28, 24, 0) 55%, rgba(30, 28, 24, 0.18) 100%), linear-gradient(0deg, #fbfbfa 34%, rgba(251, 251, 250, 0) 62%); }
   .signing .wrap { padding-block: 0 9vh; }
 }
 
@@ -231,7 +233,8 @@ html[lang="ko"] .hero3d h1 { line-height: 1.08; letter-spacing: -0.04em; max-wid
 /* Story band: workshop photograph, copy on the dark right side */
 .story { position: relative; overflow: hidden; min-height: min(92dvh, 860px); display: grid; align-items: center; background: var(--green-deep); }
 .story__media { position: absolute; inset: 0; }
-.story__media img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; animation: drift 26s ease-in-out infinite alternate; }
+.story__media { -webkit-mask-image: linear-gradient(0deg, #000 0%, #000 30%, rgba(0, 0, 0, 0.55) 44%, transparent 60%); mask-image: linear-gradient(0deg, #000 0%, #000 30%, rgba(0, 0, 0, 0.55) 44%, transparent 60%); }
+.story__media img { width: 100%; height: 100%; object-fit: cover; object-position: 34% 100%; scale: 1.42; transform-origin: 26% 100%; animation: drift 26s ease-in-out infinite alternate; }
 .story__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(270deg, var(--green-deep) 10%, rgba(23, 34, 25, 0.78) 44%, rgba(23, 34, 25, 0) 74%); }
 .story .wrap { position: relative; z-index: 1; padding-block: 16vh; display: flex; justify-content: flex-end; }
 .story__copy { max-width: 520px; }
