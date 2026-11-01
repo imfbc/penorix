@@ -3,12 +3,12 @@
 (function () {
   var D = {
     en: {
-      "meta.home.title": "PENORIX | Custom engraved metal pens",
-      "meta.home.desc": "Premium custom engraved metal pens for corporate gifts, hotels and business professionals. Precision Meets Possibility.",
+      "meta.home.title": "PENORIX | Pens made to be given",
+      "meta.home.desc": "Premium pens for corporate gifts, hotels and business professionals, made to carry your name. Precision Meets Possibility.",
       "meta.collection.title": "Collection | PENORIX",
-      "meta.collection.desc": "Explore PENORIX metal pens: Essential for volume orders, Signature for the flagship twist pen, Heritage coming soon.",
-      "meta.gifts.title": "Corporate Gifts | Custom engraved pens | PENORIX",
-      "meta.gifts.desc": "Custom engraved pens for corporate gifts. Add your logo or message, approve a proof and a sample, then order in volume. Request a quote.",
+      "meta.collection.desc": "Explore PENORIX pens: Essential for volume orders, Signature for the flagship twist pen, Heritage coming soon.",
+      "meta.gifts.title": "Corporate Gifts | Personalized pens | PENORIX",
+      "meta.gifts.desc": "Personalized pens for corporate gifts. Add your logo or message, approve a proof and a sample, then order in volume. Request a quote.",
       "meta.contact.title": "Contact | PENORIX",
       "meta.contact.desc": "Contact PENORIX for questions about our pens, orders and partnerships in the United States, Korea and India.",
       "meta.story.title": "Our Story | PENORIX",
@@ -27,7 +27,7 @@
       "lang.label": "Switch language to Korean",
 
       "hero.h1": "Precision Meets Possibility",
-      "hero.sub": "Custom engraved metal pens for the moments you sign, give and are remembered.",
+      "hero.sub": "Pens for the moments you sign, give and are remembered.",
       "cta.collection": "View collection",
       "cta.quote": "Request a quote",
 
@@ -53,7 +53,7 @@
       "stage.poster": "A PENORIX pen being used to sign a contract",
 
       "line.h2": "Find your color.",
-      "line.sub": "Six finishes, all engraved the same way.",
+      "line.sub": "Six finishes, one standard of quality.",
       "line.alt": "Six PENORIX metal pens in different colors standing in a clear acrylic stand",
       "c.black": "Black",
       "c.sage": "Sage",
@@ -63,11 +63,11 @@
       "c.graphite": "Graphite",
 
       "biz.h2": "Gifts that carry your name.",
-      "hero.eyebrow": "Custom engraved metal pens",
+      "hero.eyebrow": "Pens made to carry your name",
       "biz.drag": "Drag to rotate",
       "biz.sub": "For corporate teams, hotels and events, from the first sample to a full production run.",
       "step.inquire.h": "Inquire",
-      "step.inquire.p": "Tell us the quantity, model and what to engrave.",
+      "step.inquire.p": "Tell us the quantity, model and your name or logo.",
       "step.proof.h": "Proof",
       "step.proof.p": "We send a design proof for your approval.",
       "step.sample.h": "Sample",
@@ -96,7 +96,7 @@
       "foot.rights": "All rights reserved.",
 
       "col.h1": "Collection",
-      "col.sub": "Three lines, one standard of finish. Every pen can be engraved with your name or logo.",
+      "col.sub": "Three lines, one standard of finish. Every pen can carry your name or logo.",
       "tier.ess.h": "Essential",
       "tier.ess.for": "For events, onboarding kits and large teams that need volume at a fair price.",
       "tier.ess.f1": "Twist ballpoint",
@@ -117,7 +117,7 @@
       "tier.alt.sig": "A matte black PENORIX Signature twist pen with a chrome clip",
       "buy.on": "Buy on",
 
-      "gift.h1": "Corporate gifts, engraved to order.",
+      "gift.h1": "Corporate gifts, made to order.",
       "gift.sub": "For corporate teams, hotels and events. Your logo or message, on a pen people keep.",
       "gift.alt": "A matte black PENORIX pen in studio light",
       "proc.h2": "How an order works",
@@ -178,13 +178,13 @@
       "con.region.us": "United States",
       "con.region.kr": "Korea",
       "con.region.in": "India",
-      "con.region.note": "For custom engraving and volume orders, the quote request gets you to the right person fastest.",
+      "con.region.note": "For personalized and volume orders, the quote request gets you to the right person fastest.",
       "con.email": "Email",
       "f.topic": "Message",
 
       "story.h1": "Precision, shared across three countries.",
       "story.s1.h": "Designed together",
-      "story.s1.p": "PENORIX was shaped by a small team spread across the United States, Korea and India. We wanted a metal pen that feels right in the hand and carries a name well.",
+      "story.s1.p": "PENORIX was shaped by a small team spread across the United States, Korea and India. We wanted a pen that feels right in the hand and carries a name well.",
       "story.s2.h": "Made by craftspeople in India",
       "story.s2.p": "Every pen is made with our partner factory in India, where skilled workers finish and check each piece.",
       "story.s3.h": "A business with a purpose",
@@ -204,12 +204,12 @@
     },
 
     ko: {
-      "meta.home.title": "PENORIX | 맞춤 각인 프리미엄 금속 펜",
-      "meta.home.desc": "기업 선물, 호텔, 비즈니스 전문가를 위한 프리미엄 맞춤 각인 금속 펜. Precision Meets Possibility.",
+      "meta.home.title": "PENORIX | 선물하기 좋은 펜",
+      "meta.home.desc": "기업 선물, 호텔, 비즈니스 전문가를 위한 프리미엄 펜. 이름을 담아 드립니다. Precision Meets Possibility.",
       "meta.collection.title": "컬렉션 | PENORIX",
-      "meta.collection.desc": "대량 주문용 Essential, 대표 트위스트 펜 Signature, 곧 공개되는 Heritage까지 PENORIX 금속 펜을 만나보세요.",
-      "meta.gifts.title": "기업 선물 | 맞춤 각인 펜 | PENORIX",
-      "meta.gifts.desc": "로고나 메시지를 각인한 기업 선물용 펜. 시안과 샘플을 확인한 뒤 대량으로 주문하세요. 견적을 요청하세요.",
+      "meta.collection.desc": "대량 주문용 Essential, 대표 트위스트 펜 Signature, 곧 공개되는 Heritage까지 PENORIX 펜을 만나보세요.",
+      "meta.gifts.title": "기업 선물 | 맞춤 제작 펜 | PENORIX",
+      "meta.gifts.desc": "로고나 메시지를 담은 기업 선물용 펜. 시안과 샘플을 확인한 뒤 대량으로 주문하세요. 견적을 요청하세요.",
       "meta.contact.title": "문의 | PENORIX",
       "meta.contact.desc": "미국, 한국, 인도의 PENORIX 팀에 제품, 주문, 제휴를 문의하세요.",
       "meta.story.title": "브랜드 스토리 | PENORIX",
@@ -228,7 +228,7 @@
       "lang.label": "영어로 전환",
 
       "hero.h1": "Precision Meets Possibility",
-      "hero.sub": "서명하고, 선물하고, 기억되는 순간을 위한 맞춤 각인 프리미엄 금속 펜.",
+      "hero.sub": "서명하고, 선물하고, 기억되는 순간을 위한 펜.",
       "cta.collection": "컬렉션 보기",
       "cta.quote": "견적 요청",
 
@@ -254,7 +254,7 @@
       "stage.poster": "PENORIX 펜으로 계약서에 서명하는 장면",
 
       "line.h2": "나의 색을 찾아보세요.",
-      "line.sub": "여섯 가지 컬러, 모두 같은 방식으로 각인됩니다.",
+      "line.sub": "여섯 가지 컬러, 모두 같은 품질 기준입니다.",
       "line.alt": "투명 아크릴 스탠드에 꽂힌 여섯 가지 색상의 PENORIX 금속 펜",
       "c.black": "블랙",
       "c.sage": "세이지",
@@ -264,11 +264,11 @@
       "c.graphite": "그래파이트",
 
       "biz.h2": "이름이 담긴 선물.",
-      "hero.eyebrow": "맞춤 각인 메탈 펜",
+      "hero.eyebrow": "이름을 담는 펜",
       "biz.drag": "드래그해서 돌려 보세요",
       "biz.sub": "기업, 호텔, 행사를 위해 첫 샘플부터 대량 생산까지 함께합니다.",
       "step.inquire.h": "문의",
-      "step.inquire.p": "수량, 모델, 각인할 내용을 알려주세요.",
+      "step.inquire.p": "수량, 모델, 이름이나 로고를 알려주세요.",
       "step.proof.h": "시안",
       "step.proof.p": "디자인 시안을 보내드립니다.",
       "step.sample.h": "샘플",
@@ -297,7 +297,7 @@
       "foot.rights": "모든 권리 보유.",
 
       "col.h1": "컬렉션",
-      "col.sub": "세 가지 라인, 하나의 마감 기준. 모든 펜에 이름이나 로고를 각인할 수 있습니다.",
+      "col.sub": "세 가지 라인, 하나의 마감 기준. 모든 펜에 이름이나 로고를 담을 수 있습니다.",
       "tier.ess.h": "Essential",
       "tier.ess.for": "행사, 온보딩 키트, 대규모 팀을 위한 합리적인 가격의 대량 주문 라인입니다.",
       "tier.ess.f1": "트위스트 볼펜",
@@ -318,7 +318,7 @@
       "tier.alt.sig": "크롬 클립이 달린 매트 블랙 PENORIX Signature 트위스트 펜",
       "buy.on": "구매하기",
 
-      "gift.h1": "주문에 맞춰 각인하는 기업 선물.",
+      "gift.h1": "주문에 맞춰 만드는 기업 선물.",
       "gift.sub": "기업, 호텔, 행사를 위한 펜. 로고와 메시지를 오래 간직될 펜에 담아 드립니다.",
       "gift.alt": "스튜디오 조명 아래의 매트 블랙 PENORIX 펜",
       "proc.h2": "주문 진행 방식",
@@ -379,13 +379,13 @@
       "con.region.us": "미국",
       "con.region.kr": "한국",
       "con.region.in": "인도",
-      "con.region.note": "맞춤 각인이나 대량 주문은 견적 요청을 이용하시면 가장 빠르게 담당자와 연결됩니다.",
+      "con.region.note": "맞춤 제작이나 대량 주문은 견적 요청을 이용하시면 가장 빠르게 담당자와 연결됩니다.",
       "con.email": "이메일",
       "f.topic": "메시지",
 
       "story.h1": "세 나라가 함께 만드는 정밀함.",
       "story.s1.h": "함께 디자인합니다",
-      "story.s1.p": "PENORIX는 미국, 한국, 인도에 흩어져 있는 작은 팀이 만들었습니다. 손에 쥘 때 편안하고 이름을 품위 있게 담아내는 금속 펜을 만들고 싶었습니다.",
+      "story.s1.p": "PENORIX는 미국, 한국, 인도에 흩어져 있는 작은 팀이 만들었습니다. 손에 쥘 때 편안하고 이름을 품위 있게 담아내는 펜을 만들고 싶었습니다.",
       "story.s2.h": "인도의 장인과 함께 만듭니다",
       "story.s2.p": "모든 펜은 인도 협력 공장에서 숙련된 작업자가 마감하고 하나씩 확인해 만듭니다.",
       "story.s3.h": "목적이 있는 비즈니스",
