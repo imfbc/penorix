@@ -148,19 +148,17 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 }
 
 /* Signing: close-up photograph, copy on the dark left side */
-.signing { position: relative; overflow: hidden; min-height: min(100dvh, 900px); display: grid; align-items: center; background: #fbfbfa; color: #0c0c0d; box-shadow: inset 0 46px 60px -50px rgba(0, 0, 0, 0.35), inset 0 -46px 60px -50px rgba(0, 0, 0, 0.3); }
-/* A close-up of pure white paper: grain and fibers are SVG lighting filters, the signature is drawn live by js/main.js. */
-.signing__paper { position: absolute; inset: 0; }
-.signing__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.signing__vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 95% at 45% 40%, rgba(30, 28, 24, 0) 52%, rgba(30, 28, 24, 0.2) 100%), linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 46%); }
+.signing { position: relative; overflow: hidden; min-height: min(100dvh, 900px); display: grid; align-items: center; }
+.signing__media { position: absolute; inset: 0; }
+.signing__media img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; animation: drift 24s ease-in-out infinite alternate; }
+.signing__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 4%, rgba(17, 17, 17, 0.5) 36%, rgba(17, 17, 17, 0) 62%); }
 .signing .wrap { position: relative; z-index: 1; padding-block: 16vh; }
 .signing__copy { max-width: 520px; }
-.signing h2 { max-width: 16ch; color: #0c0c0d; }
-.signing .lead { color: #4a4c4f; }
+.signing h2 { max-width: 16ch; }
 @media (max-width: 767px) {
   .signing { align-items: end; min-height: 100dvh; }
-  .signing__svg { height: 58%; }
-  .signing__vig { background: radial-gradient(120% 70% at 50% 25%, rgba(30, 28, 24, 0) 55%, rgba(30, 28, 24, 0.18) 100%), linear-gradient(0deg, #fbfbfa 34%, rgba(251, 251, 250, 0) 62%); }
+  .signing__media img { object-position: 68% 50%; }
+  .signing__media::after { background: linear-gradient(0deg, var(--ink) 22%, rgba(17, 17, 17, 0.3) 66%, rgba(17, 17, 17, 0) 100%); }
   .signing .wrap { padding-block: 0 9vh; }
 }
 
@@ -197,38 +195,6 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 .step h3 { font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 300; margin-bottom: 0.7rem; }
 .step p { color: var(--muted); font-size: 0.95rem; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr; gap: 28px; } }
-
-/* Hero: full-screen 3D pen (js/main.js, three.js from a CDN). Drag to rotate; it spins slowly on its own.
-   The photo poster shows until WebGL is ready, and stays if WebGL or the CDN is unavailable. */
-.hero3d { position: relative; min-height: 100dvh; overflow: hidden; display: grid; align-items: end; background: radial-gradient(60% 70% at 72% 46%, #2a2c2f 0%, #161718 46%, #0c0c0d 100%); }
-.hero3d::before { content: ""; position: absolute; inset: 0; background: radial-gradient(34% 44% at 72% 46%, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0) 70%); pointer-events: none; z-index: 1; }
-.hero3d::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(12, 12, 13, 0.82) 0%, rgba(12, 12, 13, 0) 52%), linear-gradient(0deg, rgba(12, 12, 13, 0.7) 0%, rgba(12, 12, 13, 0) 30%); pointer-events: none; z-index: 1; }
-.hero3d__poster { position: absolute; top: 0; right: 0; width: 46%; height: 100%; background: url("../assets/hero.webp") 50% 60% / cover; opacity: 0.9; transition: opacity 1.2s var(--ease); }
-.hero3d.is-3d .hero3d__poster { opacity: 0; }
-.hero3d__stage { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity 1.4s var(--ease); }
-.hero3d.is-3d .hero3d__stage { opacity: 1; }
-.hero3d canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
-.hero3d canvas:active { cursor: grabbing; }
-.hero3d__text { position: relative; z-index: 2; padding: calc(var(--header-h) + 8vh) var(--pad) 11vh; max-width: min(780px, 62vw); pointer-events: none; }
-.hero3d__text .btn { pointer-events: auto; }
-.hero3d__eyebrow { margin: 0 0 1.4rem; font-size: 0.82rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--silver); display: flex; align-items: center; gap: 16px; }
-.hero3d__eyebrow::before { content: ""; width: 44px; height: 1px; background: var(--silver); }
-.hero3d h1 { font-size: clamp(3.1rem, 8.2vw, 8.6rem); line-height: 0.94; letter-spacing: -0.045em; font-weight: 300; max-width: 9ch; background: linear-gradient(180deg, #ffffff 25%, #9ea3a7 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-html[lang="ko"] .hero3d h1 { line-height: 1.08; letter-spacing: -0.04em; max-width: 8ch; }
-.hero3d .lead { margin-top: 1.8rem; max-width: 40ch; }
-.hero3d .btn-row { margin-top: 2.4rem; }
-.hero3d__hint { position: absolute; right: var(--pad); bottom: 28px; z-index: 2; margin: 0; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
-@media (max-width: 767px) {
-  .hero3d { align-items: end; }
-  .hero3d__poster { width: 100%; background-position: 50% 30%; }
-  .hero3d::before { background: radial-gradient(60% 34% at 50% 28%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 70%); }
-  .hero3d::after { background: linear-gradient(0deg, rgba(12, 12, 13, 0.95) 0%, rgba(12, 12, 13, 0.55) 42%, rgba(12, 12, 13, 0) 66%); }
-  .hero3d__text { max-width: none; padding-bottom: 8vh; }
-  .hero3d h1 { max-width: 10ch; font-size: clamp(2.8rem, 13vw, 4.4rem); }
-  .hero3d__hint { right: 0; left: 0; text-align: center; bottom: 12px; }
-}
-.hero--end .hero__text h2 { font-size: clamp(2.3rem, 4.6vw, 4.4rem); max-width: 12ch; }
-@media (max-width: 767px) { .hero--end .hero__text h2 { max-width: 14ch; } }
 
 /* Story band: workshop photograph, copy on the dark right side */
 .story { position: relative; overflow: hidden; min-height: min(92dvh, 860px); display: grid; align-items: center; background: var(--green-deep); }
