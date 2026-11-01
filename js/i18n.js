@@ -43,7 +43,7 @@
 
       "sign.h2": "Made for the moment you sign.",
       "sign.sub": "Contracts, handshakes and welcome notes. When it matters, your pen is in the room.",
-      "sign.alt": "A hand signing a document with a matte black metal pen",
+      "sign.alt": "Close-up of a metal pen tip signing in blue ink on white paper",
       "story.alt": "An artisan polishing a chrome pen barrel at a workshop bench",
 
       "stage.w1": "YOUR NAME",
@@ -244,7 +244,7 @@
 
       "sign.h2": "서명하는 순간을 위해.",
       "sign.sub": "계약서, 악수, 감사 카드. 중요한 순간에 당신의 펜이 그 자리에 있습니다.",
-      "sign.alt": "매트 블랙 금속 펜으로 서류에 서명하는 손",
+      "sign.alt": "흰 종이에 파란 잉크로 서명하는 금속 펜촉 클로즈업",
       "story.alt": "작업대에서 크롬 펜 바디를 닦는 장인의 손",
 
       "stage.w1": "YOUR NAME",

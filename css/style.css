@@ -149,15 +149,17 @@ h3 { font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; }
 
 /* Signing: close-up photograph, copy on the dark left side */
 .signing { position: relative; overflow: hidden; min-height: min(100dvh, 900px); display: grid; align-items: center; }
-.signing__media { position: absolute; inset: 0; }
-.signing__media img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; animation: drift 24s ease-in-out infinite alternate; }
-.signing__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 4%, rgba(17, 17, 17, 0.5) 36%, rgba(17, 17, 17, 0) 62%); }
+.signing { background: var(--ink); }
+.signing__media { position: absolute; inset: 0 0 0 40%; overflow: hidden; }
+.signing__media img { width: 100%; height: 100%; object-fit: cover; object-position: 52% 50%; animation: drift 24s ease-in-out infinite alternate; }
+.signing__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 0%, rgba(17, 17, 17, 0.5) 16%, rgba(17, 17, 17, 0) 40%); }
 .signing .wrap { position: relative; z-index: 1; padding-block: 16vh; }
 .signing__copy { max-width: 520px; }
 .signing h2 { max-width: 16ch; }
 @media (max-width: 767px) {
   .signing { align-items: end; min-height: 100dvh; }
-  .signing__media img { object-position: 68% 50%; }
+  .signing__media { inset: 0; overflow: hidden; }
+  .signing__media img { object-position: 56% 50%; }
   .signing__media::after { background: linear-gradient(0deg, var(--ink) 22%, rgba(17, 17, 17, 0.3) 66%, rgba(17, 17, 17, 0) 100%); }
   .signing .wrap { padding-block: 0 9vh; }
 }
