@@ -26,8 +26,9 @@
       "lang.switch": "한국어",
       "lang.label": "Switch language to Korean",
 
-      "hero.h1": "Precision Meets Possibility",
-      "hero.sub": "Pens for the moments you sign, give and are remembered.",
+      "hero.h1": "Pens worth giving.",
+      "hero.sub": "Made to carry your name, for the moments you sign, give and are remembered.",
+      "hero.trust": "Personalized with your name or logo · Proof and sample before production",
       "cta.collection": "View collection",
       "cta.quote": "Request a quote",
 
@@ -63,7 +64,7 @@
       "c.graphite": "Graphite",
 
       "biz.h2": "Gifts that carry your name.",
-      "hero.eyebrow": "Pens made to carry your name",
+      "hero.eyebrow": "Precision Meets Possibility",
       "biz.drag": "Drag to rotate",
       "biz.sub": "For corporate teams, hotels and events, from the first sample to a full production run.",
       "step.inquire.h": "Inquire",
@@ -227,8 +228,9 @@
       "lang.switch": "EN",
       "lang.label": "영어로 전환",
 
-      "hero.h1": "Precision Meets Possibility",
-      "hero.sub": "서명하고, 선물하고, 기억되는 순간을 위한 펜.",
+      "hero.h1": "선물할 만한 펜.",
+      "hero.sub": "이름을 담아, 서명하고 선물하고 기억되는 순간을 위해 만듭니다.",
+      "hero.trust": "이름 또는 로고 맞춤 · 시안과 샘플 확인 후 생산",
       "cta.collection": "컬렉션 보기",
       "cta.quote": "견적 요청",
 
@@ -264,7 +266,7 @@
       "c.graphite": "그래파이트",
 
       "biz.h2": "이름이 담긴 선물.",
-      "hero.eyebrow": "이름을 담는 펜",
+      "hero.eyebrow": "Precision Meets Possibility",
       "biz.drag": "드래그해서 돌려 보세요",
       "biz.sub": "기업, 호텔, 행사를 위해 첫 샘플부터 대량 생산까지 함께합니다.",
       "step.inquire.h": "문의",
