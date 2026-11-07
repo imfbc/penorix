@@ -190,6 +190,11 @@
       "story.s2.p": "Every pen is made with our partner factory in India, where skilled workers finish and check each piece.",
       "story.s3.h": "A business with a purpose",
       "story.s3.p": "PENORIX is run as a tent-making business. Its profits support mission work through WMTO.",
+      "story.hero.alt": "The PENORIX pen collection in black, navy, gunmetal, matte black and carbon fiber finishes on a dark stage",
+      "story.m0.h": "A pen for the moments that matter",
+      "story.m0.p": "A home, a contract, a first day on the job. Some moments are decided with a signature, and the pen that signs them is the one people keep. PENORIX is made for those moments.",
+      "story.m1.h": "The mark",
+      "story.m1.p": "A pen stands inside the letter P, circled by a single orbit. It says what we believe: precision in the making, and room for possibility in every name we engrave.",
       "story.cta": "Request a quote",
 
       "priv.h1": "Privacy",
@@ -392,6 +397,11 @@
       "story.s2.p": "모든 펜은 인도 협력 공장에서 숙련된 작업자가 마감하고 하나씩 확인해 만듭니다.",
       "story.s3.h": "목적이 있는 비즈니스",
       "story.s3.p": "PENORIX는 자비량 선교(Tent-Making) 비즈니스로 운영되며, 수익은 WMTO를 통해 선교 사역에 쓰입니다.",
+      "story.hero.alt": "어두운 무대 위에 놓인 블랙, 네이비, 건메탈, 무광 블랙, 카본 파이버 마감의 PENORIX 펜 컬렉션",
+      "story.m0.h": "중요한 순간을 위한 펜",
+      "story.m0.p": "집을 계약하는 날, 계약서에 서명하는 날, 첫 출근하는 날. 어떤 순간은 서명 한 번으로 정해지고, 그 서명을 남긴 펜은 오래 간직됩니다. PENORIX는 그런 순간을 위해 만듭니다.",
+      "story.m1.h": "로고에 담은 뜻",
+      "story.m1.p": "글자 P 안에 펜이 서 있고, 하나의 궤도가 그것을 감쌉니다. 만드는 일에는 정밀함을, 새기는 모든 이름에는 가능성의 여지를 두겠다는 우리의 믿음입니다.",
       "story.cta": "견적 요청",
 
       "priv.h1": "개인정보",

@@ -245,6 +245,12 @@ html[lang="ko"] .hero__text h1 { line-height: 1.08; letter-spacing: -0.04em; }
 /* Inner pages */
 .page-head { padding: calc(var(--header-h) + 14vh) 0 9vh; }
 .page-head h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); max-width: 14ch; }
+/* Brand story hero: the lineup photograph, full width under the header */
+.brandhero { position: relative; margin-top: var(--header-h); background: #060606; }
+.brandhero img { display: block; width: 100%; height: auto; max-height: calc(100dvh - var(--header-h)); object-fit: cover; object-position: 50% 40%; }
+.brandhero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(0deg, var(--ink) 0%, rgba(17, 17, 17, 0) 100%); pointer-events: none; }
+.page-head--story { padding: 8vh 0 3vh; }
+.page-head--story h1 { font-size: clamp(2.2rem, 4.4vw, 4rem); max-width: 20ch; }
 
 /* Collection tiers */
 .tier { display: grid; grid-template-columns: 1fr 1fr; min-height: min(92dvh, 860px); border-top: 1px solid var(--line); }
