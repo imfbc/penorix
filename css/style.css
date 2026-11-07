@@ -245,9 +245,19 @@ html[lang="ko"] .hero__text h1 { line-height: 1.08; letter-spacing: -0.04em; }
 /* Inner pages */
 .page-head { padding: calc(var(--header-h) + 14vh) 0 9vh; }
 .page-head h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); max-width: 14ch; }
-/* Brand story hero: the lineup photograph, full width under the header */
+/* Home hero: the lineup photograph fills the screen, copy sits in the empty dark area at the top left */
+.hero--lineup { display: block; }
+.hero--lineup .hero__media { position: absolute; inset: 0; min-height: 0; background: #060606; }
+.hero--lineup .hero__media img { object-position: 60% 25%; scale: 1; transform-origin: 60% 40%; }
+.hero--lineup .hero__media::after { background: linear-gradient(90deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.25) 42%, rgba(10, 10, 10, 0) 62%), linear-gradient(0deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0) 28%); }
+.hero--lineup .hero__text { position: relative; max-width: 660px; padding: calc(var(--header-h) + 7vh) var(--pad) 0; align-self: auto; }
+.hero--lineup .hero__text h1 { font-size: clamp(2.8rem, 5.6vw, 5.6rem); }
+.hero--lineup .hero__text .lead { max-width: 40ch; margin-top: 1.1rem; }
+.hero--lineup .hero__text .btn-row { margin-top: 1.8rem; }
+.hero--lineup .hero__trust { display: none; }
+/* Brand story hero: the lineup photograph, full width under the header. Slow zoom-out on load, then a gentle drift. */
 .brandhero { position: relative; margin-top: var(--header-h); background: #060606; }
-.brandhero img { display: block; width: 100%; height: auto; max-height: calc(100dvh - var(--header-h)); object-fit: cover; object-position: 50% 40%; }
+.brandhero img { animation: heroIn 2.4s var(--ease) both, breathe 24s ease-in-out 2.4s infinite alternate; display: block; width: 100%; height: auto; max-height: calc(100dvh - var(--header-h)); object-fit: cover; object-position: 50% 40%; }
 .brandhero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(0deg, var(--ink) 0%, rgba(17, 17, 17, 0) 100%); pointer-events: none; }
 .page-head--story { padding: 8vh 0 3vh; }
 .page-head--story h1 { font-size: clamp(2.2rem, 4.4vw, 4rem); max-width: 20ch; }
@@ -398,3 +408,21 @@ input[type="file"].input::file-selector-button { background: var(--paper); color
 .btn--primary { position: relative; overflow: hidden; }
 .btn--primary::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 35%, rgba(62, 91, 69, 0.28) 50%, transparent 65%); transform: translateX(-130%); animation: glint 5s ease-in-out infinite; pointer-events: none; }
 @keyframes glint { 0%, 60% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
+
+/* Our Story motion: headings rise in with a gold rule that draws itself, paragraphs follow a beat later */
+body[data-page="story"] .prose h2 { position: relative; padding-top: 24px; }
+body[data-page="story"] .prose h2::before { content: ""; position: absolute; top: 0; left: 0; width: 56px; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 1.2s var(--ease) 0.2s; }
+body[data-page="story"] .prose h2.in::before { transform: scaleX(1); }
+body[data-page="story"] .page-head--story h1 { background: linear-gradient(90deg, #fff 0%, #fff 55%, #c9a24b 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: storyShine 7s ease-in-out 1.2s infinite alternate; }
+@keyframes storyShine { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+/* Mobile: lineup photo on top, copy below it */
+@media (max-width: 767px) {
+  .hero--lineup { display: flex; flex-direction: column; min-height: 0; padding-top: var(--header-h); }
+  .hero--lineup .hero__media { position: relative; inset: auto; order: -1; }
+  .hero--lineup .hero__media img { position: relative; inset: auto; width: 100%; height: auto; max-height: 56vh; object-position: 66% 40%; scale: 1; }
+  .hero--lineup .hero__media::after { background: linear-gradient(0deg, var(--ink) 0%, rgba(17, 17, 17, 0) 38%); }
+  .hero--lineup .hero__text { position: relative; inset: auto; max-width: none; padding: 4px var(--pad) 52px; }
+  .hero--lineup .hero__text h1 { max-width: 10ch; font-size: clamp(2.6rem, 12vw, 4rem); }
+  .hero--lineup .hero__trust { display: block; }
+}
