@@ -426,3 +426,21 @@ body[data-page="story"] .page-head--story h1 { background: linear-gradient(90deg
   .hero--lineup .hero__text h1 { max-width: 10ch; font-size: clamp(2.6rem, 12vw, 4rem); }
   .hero--lineup .hero__trust { display: block; }
 }
+
+/* Korean-only product gallery (collection page): shown only when the site language is Korean */
+.ko-only { display: none; }
+html[lang="ko"] .ko-only { display: block; }
+.pens { padding: 14vh 0 12vh; border-top: 1px solid var(--line); }
+.pens h2 { font-size: clamp(1.9rem, 3.4vw, 3rem); margin-bottom: 1rem; }
+.pens .lead { max-width: 56ch; }
+.pens__grid { list-style: none; margin: 6vh 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px 22px; }
+.pens__item figure { margin: 0; }
+.pens__img { position: relative; aspect-ratio: 5 / 8; background: #17181a; border: 1px solid var(--line); overflow: hidden; }
+.pens__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: transform 0.9s var(--ease); }
+.pens__item:hover .pens__img img { transform: scale(1.04); }
+.pens__item figcaption { margin-top: 12px; display: grid; gap: 4px; }
+.pens__item figcaption strong { font-weight: 500; font-size: 1rem; }
+.pens__item figcaption span { color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+.pens__note { margin: 4vh 0 0; color: var(--muted); font-size: 0.85rem; }
+.pens .btn-row { margin-top: 2rem; }
+@media (max-width: 600px) { .pens__grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; } }
